@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="800" viewBox="0 0 800 800">
+  <!-- 頻道頭像：YouTube 會裁成圓形，重要部位都放在中間的圓裡 -->
+  <defs>
+    <radialGradient id="bodyG" cx="40%" cy="30%" r="75%">
+      <stop offset="0" stop-color="#5A5052"/>
+      <stop offset="0.6" stop-color="#3B3536"/>
+      <stop offset="1" stop-color="#2A2425"/>
+    </radialGradient>
+    <linearGradient id="flameG" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#FF7A1A"/>
+      <stop offset="0.5" stop-color="#FFC15E"/>
+      <stop offset="1" stop-color="#FFE08A"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="soft"><feGaussianBlur stdDeviation="9"/></filter>
+    <path id="body" d="M400,215 C590,210 700,350 695,520 C690,690 600,840 400,845 C200,850 105,690 105,520 C105,350 210,220 400,215 Z"/>
+    <clipPath id="bodyClip"><use href="#body"/></clipPath>
+    <clipPath id="mouthClip"><path d="M358,622 Q400,690 442,622 Z"/></clipPath>
+  </defs>
+
+  <rect width="800" height="800" fill="#D93A2B"/>
+
+  <!-- 火苗（米白描邊，紅底上才看得清楚） -->
+  <g transform="translate(400 236) scale(1.6)">
+    <path d="M-42,10 C-56,-30 -34,-52 -30,-88 C-18,-62 -10,-58 -6,-112 C6,-70 20,-62 30,-96 C44,-58 56,-24 40,10 Z"
+          fill="url(#flameG)" stroke="#F7F3EA" stroke-width="7" stroke-linejoin="round" paint-order="stroke"/>
+    <path d="M-20,8 C-26,-14 -12,-26 -10,-46 C-2,-30 6,-30 10,-50 C18,-28 26,-12 18,8 Z" fill="#FFF3C4"/>
+  </g>
+
+  <!-- 身體＋貼紙感描邊 -->
+  <use href="#body" fill="none" stroke="#F7F3EA" stroke-width="18"/>
+  <use href="#body" fill="url(#bodyG)"/>
+  <g fill="#231E1F" opacity="0.55">
+    <circle cx="190" cy="600" r="5"/><circle cx="600" cy="380" r="4"/><circle cx="560" cy="720" r="5"/>
+    <circle cx="470" cy="250" r="4"/><circle cx="260" cy="710" r="4"/>
+  </g>
+
+  <!-- 發光裂紋 -->
+  <g stroke="#FF7A1A" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)">
+    <polyline points="222,286 250,312 236,336 262,360"/>
+    <polyline points="250,312 280,298"/>
+    <polyline points="648,592 622,628 648,662 630,700"/>
+  </g>
+
+  <!-- 白毛巾頭帶（貼著頭形），左側打結 -->
+  <g clip-path="url(#bodyClip)">
+    <path d="M90,400 Q400,246 710,400 L716,452 Q400,316 84,452 Z" fill="#F7F3EA"/>
+    <g stroke="#E2D9C8" stroke-width="3">
+      <line x1="230" y1="345" x2="227" y2="392"/><line x1="315" y1="320" x2="313" y2="368"/>
+      <line x1="485" y1="320" x2="487" y2="368"/><line x1="570" y1="345" x2="573" y2="392"/>
+    </g>
+  </g>
+  <path d="M122,428 C88,442 58,478 42,522 C70,500 92,488 114,478 Z" fill="#F7F3EA" stroke="#D8D0C0" stroke-width="3"/>
+  <path d="M122,436 C104,472 98,514 104,552 C118,516 132,492 144,474 Z" fill="#F7F3EA" stroke="#D8D0C0" stroke-width="3"/>
+  <ellipse cx="124" cy="438" rx="30" ry="24" fill="#FFFFFF" stroke="#D8D0C0" stroke-width="3"/>
+
+  <!-- 臉 -->
+  <ellipse cx="222" cy="618" rx="44" ry="25" fill="#FF8A4C" filter="url(#soft)"/>
+  <ellipse cx="578" cy="618" rx="44" ry="25" fill="#FF8A4C" filter="url(#soft)"/>
+  <ellipse cx="310" cy="522" rx="66" ry="80" fill="#FFFFFF"/>
+  <ellipse cx="490" cy="522" rx="66" ry="80" fill="#FFFFFF"/>
+  <ellipse cx="320" cy="538" rx="39" ry="47" fill="#2A1E1A"/>
+  <ellipse cx="480" cy="538" rx="39" ry="47" fill="#2A1E1A"/>
+  <circle cx="335" cy="516" r="15" fill="#FFFFFF"/><circle cx="306" cy="564" r="7" fill="#FFFFFF"/>
+  <circle cx="495" cy="516" r="15" fill="#FFFFFF"/><circle cx="466" cy="564" r="7" fill="#FFFFFF"/>
+  <path d="M358,622 Q400,690 442,622 Z" fill="#2A1414" stroke="#1F1819" stroke-width="5" stroke-linejoin="round"/>
+  <ellipse cx="400" cy="660" rx="22" ry="12" fill="#E8604A" clip-path="url(#mouthClip)"/>
+</svg>

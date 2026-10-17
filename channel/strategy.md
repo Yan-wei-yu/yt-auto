@@ -28,7 +28,7 @@
    A-Tan is a hot-tempered little lump of charcoal who dreams of becoming the best cook in the Taiwanese night market, if only he could learn to cook on low heat.
    New shorts every Tue / Thu / Sat.
    ```
-4. **頭像**：用下面的 prompt 生成，裁成圓形看看，縮小到很小的時候還要認得出來。
+4. **頭像**：直接上傳 [`avatar.png`](avatar.png)（800×800，向量原檔 `avatar.svg`，縮到 24px 還認得出來）。想要 3D 質感的版本，再用下面的 prompt 加上定裝照生成：
    ```
    Close-up portrait of A-Tan (use the reference sheet), centered face with the small flame on top and the white towel headband, friendly smile, on a solid warm red background (#D93A2B), high contrast, simple, readable at very small size, no text
    ```
