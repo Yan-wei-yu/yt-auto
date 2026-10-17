@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 import shutil
 import subprocess
 from dataclasses import dataclass
@@ -92,7 +93,9 @@ def assemble(parts: list[Part], out: Path, cfg: Config, portrait: bool, music: P
     margin = int(h * 0.40) if portrait else 46
     (out.parent / ass_name).write_text(build_ass(cues, w, h, v["subtitle_font"], size, margin), encoding="utf-8")
     # 在輸出資料夾執行 ffmpeg，字幕檔用相對路徑，避免各作業系統的路徑跳脫問題
-    filters.append(f"[vc]subtitles={ass_name}[vout]")
+    # fontsdir 讓 libass 用頻道字型；相對路徑沒有冒號，Windows 也不用跳脫
+    fonts = Path(os.path.relpath(cfg.path("fonts"), out.parent)).as_posix()
+    filters.append(f"[vc]subtitles={ass_name}:fontsdir={fonts}[vout]")
 
     if music is not None:
         args += ["-stream_loop", "-1", "-i", str(music.resolve())]

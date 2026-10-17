@@ -59,9 +59,10 @@ video:
   # 畫面緩慢推近，避免整段都是靜止圖
   ken_burns: true
   music_volume: 0.08
-  # matplotlib 會依序找這些字型（Mac、Windows、Linux 都有一個能用）
-  fonts: [Noto Sans TC, PingFang TC, Heiti TC, Microsoft JhengHei, WenQuanYi Zen Hei]
-  subtitle_font: Noto Sans TC
+  # 頻道字型：jf open 粉圓（SIL OFL 1.1，已放在 channel/fonts/，任何電腦都一樣）
+  # 後面幾個是備用：萬一字型檔不見了，依序找系統裡的中文字型
+  fonts: [jf-openhuninn-2.1, Noto Sans TC, PingFang TC, Heiti TC, Microsoft JhengHei, WenQuanYi Zen Hei]
+  subtitle_font: jf-openhuninn-2.1
   subtitle_size: 54
   short_subtitle_size: 64
 
@@ -79,3 +80,5 @@ paths:
   state: state
   secrets: .secrets
   cast: channel/cast.yaml
+  fonts: channel/fonts
+  branding: channel

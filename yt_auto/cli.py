@@ -156,7 +156,7 @@ def cmd_cast(args, cfg) -> int:
 
     from .cartoon import draw_stage, load_cast
 
-    slides.setup_fonts(cfg.video["fonts"])
+    slides.setup_fonts(cfg)
     cast = load_cast(cfg.path("cast"))
     keys = list(cast)
     cols = 4
@@ -173,6 +173,20 @@ def cmd_cast(args, cfg) -> int:
     fig.savefig(out, facecolor=slides.NAVY)
     plt.close(fig)
     print(f"✓ 角色總表：{out}")
+    return 0
+
+
+def cmd_branding(args, cfg) -> int:
+    from . import branding
+
+    folder = cfg.path("branding")
+    avatar = branding.render_avatar(cfg, folder / "avatar.png")
+    banner = branding.render_banner(cfg, folder / "banner.png")
+    preview = branding.render_preview(banner, avatar, cfg.path("build") / "branding_preview.png",
+                                      cfg.channel["name"], args.handle)
+    print(f"✓ 頭像：{_rel(avatar, cfg)}（800×800）")
+    print(f"✓ 橫幅：{_rel(banner, cfg)}（2560×1440）")
+    print(f"✓ 預覽：{_rel(preview, cfg)}")
     return 0
 
 
@@ -224,6 +238,10 @@ def main(argv: list[str] | None = None) -> int:
     p = sub.add_parser("cast", help="把 channel/cast.yaml 的角色畫成總表")
     p.add_argument("--out")
     p.set_defaults(func=cmd_cast)
+
+    p = sub.add_parser("branding", help="產生頻道頭像、橫幅和頻道頁預覽")
+    p.add_argument("--handle", default="@LeekWeekly", help="預覽圖上顯示的 handle")
+    p.set_defaults(func=cmd_branding)
 
     sub.add_parser("stats", help="產生頻道週報（需要 YOUTUBE_API_KEY）").set_defaults(func=cmd_stats)
 

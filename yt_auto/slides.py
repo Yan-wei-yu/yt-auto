@@ -23,6 +23,7 @@ TEXT = "#F5F5F0"
 MUTED = "#9AA3B2"
 GOLD = "#FFD54A"
 WEEKDAYS = "一二三四五六日"
+NO_LINE_START = "，。、；：！？）」』%,.;:!?)"
 
 # Linux 的文泉驛只有一種字重，matplotlib 會一直警告，這裡關掉
 logging.getLogger("matplotlib.font_manager").setLevel(logging.ERROR)
@@ -53,7 +54,10 @@ LANDSCAPE = dict(content=(0.05, 0.20, 0.61, 0.86), stage=(0.63, 0.10, 0.98, 0.89
 PORTRAIT = dict(content=(0.07, 0.50, 0.93, 0.92), stage=(0.04, 0.07, 0.96, 0.385), scale=1.2)
 
 
-def setup_fonts(families: list[str]) -> None:
+def setup_fonts(cfg: Config) -> None:
+    for f in sorted(cfg.path("fonts").glob("*.[ot]tf")):
+        font_manager.fontManager.addfont(str(f))
+    families = cfg.video["fonts"]
     installed = {f.name for f in font_manager.fontManager.ttflist}
     usable = [f for f in families if f in installed]
     if not usable:
@@ -88,7 +92,23 @@ def wrap(text: str, max_units: float) -> list[str]:
             line += tok
     if line.strip():
         lines.append(line.rstrip())
-    return lines
+    # 標點不放在行首（例如「，獲利再創新高」）：把它挪回上一行的行尾
+    for i in range(1, len(lines)):
+        while lines[i] and lines[i][0] in NO_LINE_START:
+            lines[i - 1] += lines[i][0]
+            lines[i] = lines[i][1:].lstrip()
+    return [ln for ln in lines if ln]
+
+
+def fit(text: str, size: float, max_units_at) -> tuple[list[str], float]:
+    """換行後如果最後一行只剩幾個字（例如「-9%」），字縮小一點再試，讓它擠回同一行。"""
+    for _ in range(3):
+        limit = max_units_at(size)
+        lines = wrap(text, limit)
+        if len(lines) == 1 or text_units(lines[-1]) > limit * 0.3:
+            return lines, size
+        size *= 0.92
+    return lines, size
 
 
 class Slide:
@@ -150,7 +170,8 @@ def _heading(s: Slide, title: str, size: float = 66, tag: str | None = None, rig
         if right:
             s.text(x1, y + 0.01, right[0], 60, right[1], ha="right")
         y -= 0.075 if not s.l.portrait else 0.04
-    return s.lines(x0, y, wrap(title, s.max_units(size, x0, x1)), size)
+    lines, size = fit(title, size, lambda sz: s.max_units(sz, x0, x1))
+    return s.lines(x0, y, lines, size)
 
 
 def _bullets(s: Slide, items: list[str], y: float, size: float = 42) -> float:
@@ -298,7 +319,7 @@ def layout(cfg: Config, portrait: bool) -> Layout:
 
 
 def render_segment(seg: Segment, week: Week, cfg: Config, out: Path, portrait: bool = False) -> Path:
-    setup_fonts(cfg.video["fonts"])
+    setup_fonts(cfg)
     s = Slide(layout(cfg, portrait), theme(cfg), week)
     s.header()
     DRAW[seg.type](s, seg)
@@ -309,7 +330,7 @@ def render_segment(seg: Segment, week: Week, cfg: Config, out: Path, portrait: b
 
 def render_thumbnail(week: Week, cfg: Config, out: Path) -> Path:
     """1280×720 縮圖：大字＋本週新聞人物的卡通。thumbnail.lines 最後一行通常放漲跌幅。"""
-    setup_fonts(cfg.video["fonts"])
+    setup_fonts(cfg)
     th = week.thumbnail
     lay = Layout(False, 1280, 720, content=(0.05, 0.08, 0.62, 0.92), stage=(0.55, 0.03, 0.99, 0.97), scale=1.0)
     s = Slide(lay, theme(cfg), week)

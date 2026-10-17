@@ -32,7 +32,10 @@
 1. **改頻道名稱**：預設「韭菜週報」。
 2. **改 handle**：`@Mander_kun` 跟新內容無關。到 YouTube Studio → 自訂 → 基本資訊，挑一個還沒被用掉的，例如 `@LeekWeekly`、`@JiuCaiWeekly`。
 3. **舊的小火龍影片設成私人或刪除**，避免被版權警告，也跟新定位不合。
-4. **頭像**：上傳 [`avatar.png`](avatar.png)（綠底白字「韭」＋紅色上漲線）。
+4. **頭像和橫幅**：YouTube Studio → 自訂 → 品牌宣傳。
+   - 頭像上傳 [`avatar.png`](avatar.png)（800×800，綠底白字「韭」＋紅色上漲線）。
+   - 橫幅圖片上傳 [`banner.png`](banner.png)（2560×1440）。文字都在安全區內，電腦、手機、電視都不會被裁到。
+   - 想改字或配色：改 `yt_auto/branding.py` 後跑 `python -m yt_auto branding`，`build/branding_preview.png` 會顯示放到頻道頁的樣子。
 5. **頻道說明**（直接貼上）：
    ```
    用搞笑卡通，每週看完一週美股。

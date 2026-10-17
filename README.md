@@ -5,11 +5,12 @@
 每週一支 5–6 分鐘的長片（大盤、本週大事、漲跌排行、「本週時事概念股」、下週行事曆），再從裡面剪 3 支 Shorts。圖表、卡通、字幕、縮圖、剪輯、上傳資料都由程式產生，你只要審稿和配音。
 
 - 📈 經營策略、每週流程、紅線、收益路線圖：[`channel/strategy.md`](channel/strategy.md)
-- 🎭 卡通角色庫：[`channel/cast.yaml`](channel/cast.yaml)（總表 [`channel/cast_sheet.png`](channel/cast_sheet.png)）、頭像 [`channel/avatar.png`](channel/avatar.png)
+- 🎭 卡通角色庫：[`channel/cast.yaml`](channel/cast.yaml)（總表 [`channel/cast_sheet.png`](channel/cast_sheet.png)）
+- 🖼 頻道頭像 [`channel/avatar.png`](channel/avatar.png)、橫幅 [`channel/banner.png`](channel/banner.png)
 - 🎬 第一集（2026 第 42 週）：[`weeks/2026-w42/episode.yaml`](weeks/2026-w42/episode.yaml)
 
 ```
-channel/          卡通角色庫、頭像、經營策略
+channel/          卡通角色庫、頭像、橫幅、頻道字型（fonts/：jf open 粉圓，SIL OFL 1.1）、經營策略
 weeks/<週>/       episode.yaml（腳本）、market.json（行情）、voice/（你的錄音，不進 git）
 yt_auto/          產線程式
 build/            投影片、成片、Shorts、縮圖、上傳清單（不進 git）
@@ -56,6 +57,7 @@ python -m yt_auto build 2026-w43    # 6. 長片＋Shorts＋縮圖＋upload.md
 | `python -m yt_auto build [週] [--no-tts] [--music 檔案]` | 剪出長片、Shorts、縮圖和上傳清單 |
 | `python -m yt_auto upload [週] [--only long\|short1] [--dry-run]` | 用 YouTube API 上傳並排程（見下方限制） |
 | `python -m yt_auto cast` | 把角色庫畫成總表，新增角色後確認造型 |
+| `python -m yt_auto branding` | 重新產生頻道頭像、橫幅，和放到頻道頁的預覽圖 |
 | `python -m yt_auto stats` | 產生頻道數據週報到 `reports/` |
 | `python -m pytest` | 跑測試 |
 

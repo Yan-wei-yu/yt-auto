@@ -311,8 +311,9 @@ def _wrap_bubble(text: str, max_chars: int = 9) -> str:
 
 
 def draw_stage(ax, cast_lib: dict, entries: list[dict], width_px: float, height_px: float,
-               arrow: str | None = None, up: str = "#FF4D4F", down: str = "#22C55E", panel: str = "#1A2542"):
-    """在 ax 上畫一個舞台：背景、可選的大箭頭、1–3 位角色。"""
+               arrow: str | None = None, up: str = "#FF4D4F", down: str = "#22C55E", panel: str | None = "#1A2542",
+               tags: bool = True):
+    """在 ax 上畫一個舞台：背景、可選的大箭頭、1–3 位角色。panel=None 時不畫背景（例如橫幅）。"""
     H = 140.0
     W = H * width_px / height_px
     ax.set_xlim(0, W)
@@ -322,8 +323,9 @@ def draw_stage(ax, cast_lib: dict, entries: list[dict], width_px: float, height_
     lw = max(height_px / 260, 0.8)
     font_pt = height_px / 140 * 7.5 * 0.72 * 1.2
     p = Painter(ax, lw, font_pt)
-    p.add(FancyBboxPatch((1, 1), W - 2, H - 2, boxstyle="round,pad=0,rounding_size=8", fc=panel, ec="none"), 0)
-    p.add(Ellipse((W / 2, 30), W * 0.9, 40, fc="#24345C", alpha=0.7, ec="none"), 0)
+    if panel:
+        p.add(FancyBboxPatch((1, 1), W - 2, H - 2, boxstyle="round,pad=0,rounding_size=8", fc=panel, ec="none"), 0)
+        p.add(Ellipse((W / 2, 30), W * 0.9, 40, fc="#24345C", alpha=0.7, ec="none"), 0)
     if arrow in ("up", "down"):
         # 背景的大趨勢線＋箭頭（紅漲綠跌）
         c = up if arrow == "up" else down
@@ -355,6 +357,7 @@ def draw_stage(ax, cast_lib: dict, entries: list[dict], width_px: float, height_
         else:
             top = p.person(look, x, ground, s, mood, arms, item)
         # 人多的時候名牌只放名字，避免互相擋到
-        p.nametag(x, ground - 4, look["name"], look.get("role", "") if n == 1 else "", s)
+        if tags:
+            p.nametag(x, ground - 4, look["name"], look.get("role", "") if n == 1 else "", s)
         if e.get("say"):
             p.bubble(x, top + 3 * s, _wrap_bubble(e["say"], 7 if n > 1 else 9), (0, W), s)
