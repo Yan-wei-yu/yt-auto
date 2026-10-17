@@ -68,10 +68,16 @@ video:
 
 voice:
   # 優先順序：你自己的錄音 weeks/<週>/voice/<段落id>.wav|mp3|m4a → AI 配音 → 靜音（只估長度）
-  # engine：
-  #   kokoro：離線 AI 配音，模型 Apache 2.0 可商用。第一次用先跑 python -m yt_auto tts-setup 下載模型
+  # engines：照順序試，第一個能用的就用
+  #   google：Google Cloud Text-to-Speech 的台灣華語（cmn-TW）聲音，可商用，每月免費額度遠大於用量。
+  #           金鑰放 .secrets/google_tts_key.txt（不進 git）；`python -m yt_auto voices` 列出可用的聲音
+  #   kokoro：離線 AI 配音，模型 Apache 2.0 可商用，大陸口音。第一次用先跑 python -m yt_auto tts-setup
   #   edge：微軟 Edge 線上朗讀（台灣腔），但商用條款不明確，只建議拿來預覽
-  engine: kokoro
+  engines: [google, kokoro]
+  google:
+    language: cmn-TW
+    voice: cmn-TW-Wavenet-A
+    speed: 1.05
   kokoro:
     model_dir: ~/.cache/yt-auto/kokoro-multi-lang-v1_1
     # 0–102 號聲音；試過最清楚的是 50（女，頻道目前用這個）和 58（男）

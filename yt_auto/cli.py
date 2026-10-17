@@ -198,6 +198,15 @@ def cmd_tts_setup(args, cfg) -> int:
     return 0
 
 
+def cmd_voices(args, cfg) -> int:
+    from .voice import google_voices
+
+    for v in google_voices(cfg, args.language):
+        gender = {"FEMALE": "女", "MALE": "男"}.get(v.get("ssmlGender"), "")
+        print(f"{v['name']:<32}{gender}")
+    return 0
+
+
 def cmd_stats(args, cfg) -> int:
     report = youtube.channel_report(cfg)
     out = cfg.path("reports") / f"{datetime.now():%Y-%m-%d}.md"
@@ -252,6 +261,10 @@ def main(argv: list[str] | None = None) -> int:
     p.set_defaults(func=cmd_branding)
 
     sub.add_parser("tts-setup", help="下載 AI 配音模型（Kokoro，約 330 MB，只要一次）").set_defaults(func=cmd_tts_setup)
+
+    p = sub.add_parser("voices", help="列出 Google 台灣華語的可用聲音（需要金鑰）")
+    p.add_argument("--language", default="cmn-TW")
+    p.set_defaults(func=cmd_voices)
 
     sub.add_parser("stats", help="產生頻道週報（需要 YOUTUBE_API_KEY）").set_defaults(func=cmd_stats)
 

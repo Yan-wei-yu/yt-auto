@@ -41,7 +41,12 @@ python -m yt_auto build 2026-w43    # 6. 長片＋Shorts＋縮圖＋upload.md
 #                                     7. 照 build/2026-w43/upload.md 在 YouTube Studio 上傳排程
 ```
 
-**配音的優先順序**：`voice/` 裡有你的錄音就用錄音；沒有就用 edge-tts 產生預覽配音（需要網路）；都沒有就是靜音版，只用來看節奏（`build --no-tts`）。
+**配音的優先順序**：`voice/` 裡有你的錄音就用錄音；沒有就照 `config.yaml` 的 `voice.engines` 用 AI 配音：
+
+1. **google**：Google Cloud 的台灣華語聲音（可商用）。金鑰放 `.secrets/google_tts_key.txt`，`python -m yt_auto voices` 列出可用的聲音。
+2. **kokoro**：離線、免金鑰（大陸口音），第一次先跑 `python -m yt_auto tts-setup`。
+
+都沒有就是靜音版，只用來看節奏（`build --no-tts`）。
 
 **最省事的做法**：每週六直接跟 Claude 說「做這週的韭菜週報」。它會上網整理新聞、抓行情、寫好腳本並 commit，你只要審稿、錄音、`build`、上傳。
 
