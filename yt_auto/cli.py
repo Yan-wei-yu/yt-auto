@@ -190,6 +190,14 @@ def cmd_branding(args, cfg) -> int:
     return 0
 
 
+def cmd_tts_setup(args, cfg) -> int:
+    from .voice import setup_kokoro
+
+    folder = setup_kokoro(cfg)
+    print(f"✓ 配音模型：{folder}")
+    return 0
+
+
 def cmd_stats(args, cfg) -> int:
     report = youtube.channel_report(cfg)
     out = cfg.path("reports") / f"{datetime.now():%Y-%m-%d}.md"
@@ -224,7 +232,7 @@ def main(argv: list[str] | None = None) -> int:
 
     p = sub.add_parser("build", help="剪出長片＋Shorts＋縮圖＋上傳清單")
     p.add_argument("week", nargs="?", default="latest")
-    p.add_argument("--no-tts", action="store_true", help="不用 TTS，沒錄音的段落用靜音預覽")
+    p.add_argument("--no-tts", action="store_true", help="不用 AI 配音，沒錄音的段落用靜音預覽")
     p.add_argument("--music", help="背景音樂檔")
     p.add_argument("--skip-shorts", action="store_true")
     p.set_defaults(func=cmd_build)
@@ -242,6 +250,8 @@ def main(argv: list[str] | None = None) -> int:
     p = sub.add_parser("branding", help="產生頻道頭像、橫幅和頻道頁預覽")
     p.add_argument("--handle", default="@LeekWeekly", help="預覽圖上顯示的 handle")
     p.set_defaults(func=cmd_branding)
+
+    sub.add_parser("tts-setup", help="下載 AI 配音模型（Kokoro，約 330 MB，只要一次）").set_defaults(func=cmd_tts_setup)
 
     sub.add_parser("stats", help="產生頻道週報（需要 YOUTUBE_API_KEY）").set_defaults(func=cmd_stats)
 

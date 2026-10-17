@@ -100,9 +100,11 @@ def assemble(parts: list[Part], out: Path, cfg: Config, portrait: bool, music: P
     if music is not None:
         args += ["-stream_loop", "-1", "-i", str(music.resolve())]
         filters.append(f"[{n}:a]{AUDIO_FMT},atrim=duration={t:.3f},afade=t=out:st={max(t - 2, 0):.3f}:d=2,volume={v['music_volume']}[mus]")
-        filters.append("[ac][mus]amix=inputs=2:duration=first:dropout_transition=0:normalize=0[aout]")
+        filters.append("[ac][mus]amix=inputs=2:duration=first:dropout_transition=0:normalize=0[amix]")
     else:
-        filters.append("[ac]anull[aout]")
+        filters.append("[ac]anull[amix]")
+    # 音量統一到 YouTube 常用的 -14 LUFS，錄音大聲小聲、AI 配音都一樣
+    filters.append("[amix]loudnorm=I=-14:TP=-1.5:LRA=11,aresample=48000[aout]")
 
     args += ["-filter_complex", ";".join(filters), "-map", "[vout]", "-map", "[aout]",
              "-c:v", "libx264", "-preset", "medium", "-crf", "20", "-pix_fmt", "yuv420p", "-r", str(fps),

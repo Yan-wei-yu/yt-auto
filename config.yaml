@@ -67,11 +67,30 @@ video:
   short_subtitle_size: 64
 
 voice:
-  # 優先順序：你自己的錄音 weeks/<週>/voice/<段落id>.wav|mp3|m4a → edge-tts 預覽配音 → 靜音（只估長度）
+  # 優先順序：你自己的錄音 weeks/<週>/voice/<段落id>.wav|mp3|m4a → AI 配音 → 靜音（只估長度）
+  # engine：
+  #   kokoro：離線 AI 配音，模型 Apache 2.0 可商用。第一次用先跑 python -m yt_auto tts-setup 下載模型
+  #   edge：微軟 Edge 線上朗讀（台灣腔），但商用條款不明確，只建議拿來預覽
+  engine: kokoro
+  kokoro:
+    model_dir: ~/.cache/yt-auto/kokoro-multi-lang-v1_1
+    # 0–102 號聲音；試過最清楚的是 58（男）和 50（女）
+    speaker: 58
+    speed: 1.05
   tts_voice: zh-TW-YunJheNeural
   tts_rate: "+8%"
   # 沒有配音時估算長度用（中文旁白每秒約 4.5 字）
   chars_per_second: 4.5
+  # 只影響配音、不影響字幕：讓 AI 唸對英文縮寫和專有名詞
+  pronounce:
+    "S&P 500": 標普五百
+    Fed: 聯準會
+    CPI: C P I
+    ADR: A D R
+    CME: C M E
+    IBM: I B M
+    EPS: E P S
+    CoreWeave: Core Weave
 
 paths:
   weeks: weeks

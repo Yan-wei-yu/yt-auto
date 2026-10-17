@@ -61,6 +61,16 @@ def test_subtitles():
     assert cues[0].start == 10 and cues[-1].end == pytest.approx(16)
 
 
+def test_speech_text():
+    from yt_auto.voice import speech_text
+
+    cfg = load_config()
+    # 只改配音用的文字：縮寫換唸法、中文旁邊的空白拿掉、英文單字之間保留
+    assert speech_text("S&P 500 一週跌", cfg) == "標普五百一週跌"
+    assert speech_text("Fed 九月升息", cfg) == "聯準會九月升息"
+    assert speech_text("CoreWeave 這週", cfg) == "Core Weave這週"
+
+
 def test_chapters():
     entries = [("a", 0), ("b", 20), ("c", 25), ("d", 60)]
     # b 只有 5 秒（20→25），不滿 10 秒的章節會被併進前一段
