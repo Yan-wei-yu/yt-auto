@@ -1,0 +1,91 @@
+id: {id}
+label: {label}
+title: （本週一句話標題）
+publish_at:
+
+thumbnail:
+  tag: （縮圖上的黃色小標）
+  lines: [（第一行）, "（第二行，通常放漲跌幅）"]
+  color: down   # up / down
+  pose: down    # flat / up / down / cut / shock
+
+youtube:
+  title: （長片標題，100 字以內）
+  description: |
+    （本週重點兩三句）
+  tags: [美股, 美股週報, 韭菜, 散戶]
+  hashtags: [美股, 韭菜週報]
+
+# type：title / indices / topic / movers / concept / calendar / outro
+# pose：flat / up / down / cut / shock
+segments:
+  - id: s01
+    type: title
+    chapter: 開場
+    pose: flat
+    headline: （大標）
+    stat: {label: 那斯達克 本週, value: 0}
+    subhead: （副標）
+    narration: >-
+      大家好，我是阿韭……
+
+  - id: s02
+    type: indices
+    chapter: 本週大盤
+    pose: flat
+    narration: >-
+      先看大盤……
+
+  - id: s03
+    type: topic
+    chapter: 大事一
+    pose: flat
+    tag: 大事 1
+    heading: （這件事的標題）
+    chart:          # 選填：market.json 裡的代號，例如 NVDA
+    bullets: [（重點 1）, （重點 2）]
+    narration: >-
+      第一件大事……
+
+  - id: s04
+    type: movers
+    chapter: 本週漲跌排行
+    pose: flat
+    narration: >-
+      整理一下這週的觀察名單……
+
+  - id: s05
+    type: concept
+    chapter: 本週時事概念股
+    pose: up
+    name: （XX 概念股）
+    change: （漲跌幅文字）
+    series: [10, 12, 18, 15, 25]
+    labels: [週一, 週二, 週三, 週四]
+    bullets: [（梗 1）]
+    narration: >-
+      進入本週時事概念股，以下純屬虛構……
+
+  - id: s06
+    type: calendar
+    chapter: 下週行事曆
+    pose: flat
+    events:
+      - {date: （日期）, item: （事件）}
+    narration: >-
+      下週看什麼……
+
+  - id: s07
+    type: outro
+    chapter: 結尾
+    pose: up
+    headline: 我是阿韭，下週再一起被割
+    bullets: [訂閱：每週日 20:00，一起看完一週美股]
+    narration: >-
+      以上就是這週的韭菜週報……
+
+shorts:
+  - id: short1
+    segments: [s05]
+    title: （Short 標題）
+    publish_at:

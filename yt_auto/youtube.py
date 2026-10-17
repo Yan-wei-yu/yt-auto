@@ -6,14 +6,12 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from .config import Config
-from .episode import Episode
-from .metadata import description, publish_at_utc
+from .metadata import publish_at_utc
 
 SCOPES = ["https://www.googleapis.com/auth/youtube.upload", "https://www.googleapis.com/auth/youtube.readonly"]
 
-# 現行 YPP 門檻（2027/2/1 起新申請者改為 8,000 小時或 2,000 萬次 Shorts 觀看）
-YPP_FAN_FUNDING = {"subs": 500, "shorts_views_90d": 3_000_000}
-YPP_ADS_2027 = {"subs": 1000, "shorts_views_90d": 20_000_000}
+# 2027/2/1 起新申請者的 YPP 門檻：1,000 訂閱＋12 個月 8,000 小時長片觀看（或 90 天 2,000 萬次 Shorts 觀看）
+YPP_ADS_2027 = {"subs": 1000, "watch_hours_12m": 8000}
 
 
 def _google():
@@ -25,8 +23,8 @@ def _google():
     return build, MediaFileUpload
 
 
-def upload_body(ep: Episode, cfg: Config) -> dict:
-    yt, ycfg = ep.youtube, cfg.youtube
+def upload_body(title: str, description: str, tags: list[str], publish_at: datetime | None, cfg: Config) -> dict:
+    ycfg = cfg.youtube
     status = {
         "privacyStatus": "private",
         "selfDeclaredMadeForKids": ycfg["made_for_kids"],
@@ -34,20 +32,16 @@ def upload_body(ep: Episode, cfg: Config) -> dict:
         "license": ycfg["license"],
         "embeddable": True,
     }
-    publish = publish_at_utc(ep)
-    if publish and ep.publish_at > datetime.now(timezone.utc):
+    if publish_at and publish_at > datetime.now(timezone.utc):
         # 排程發布：必須先設成 private，時間到 YouTube 會自動公開
-        status["publishAt"] = publish
+        status["publishAt"] = publish_at_utc(publish_at)
     return {
         "snippet": {
-            "title": yt["title"],
-            "description": description(ep, cfg, "zh"),
-            "tags": yt.get("tags", []),
+            "title": title,
+            "description": description,
+            "tags": tags,
             "categoryId": ycfg["category_id"],
             "defaultLanguage": cfg.channel["default_language"],
-        },
-        "localizations": {
-            "en": {"title": yt["title_en"], "description": description(ep, cfg, "en")},
         },
         "status": status,
     }
@@ -83,21 +77,26 @@ def uploaded(cfg: Config) -> dict:
     return json.loads(f.read_text(encoding="utf-8")) if f.exists() else {}
 
 
-def upload(ep: Episode, video: Path, cfg: Config) -> str:
+def upload(key: str, video: Path, body: dict, cfg: Config, thumbnail: Path | None = None) -> str:
+    """上傳一支影片；key 例如 2026-w42 或 2026-w42/short1，用來避免重複上傳。"""
     build, MediaFileUpload = _google()
     done = uploaded(cfg)
-    if ep.id in done:
-        raise SystemExit(f"{ep.id} 已經上傳過：https://youtu.be/{done[ep.id]['video_id']}")
+    if key in done:
+        raise SystemExit(f"{key} 已經上傳過：https://youtu.be/{done[key]['video_id']}")
     service = build("youtube", "v3", credentials=credentials(cfg))
     media = MediaFileUpload(str(video), mimetype="video/mp4", chunksize=8 * 1024 * 1024, resumable=True)
-    request = service.videos().insert(part="snippet,status,localizations", body=upload_body(ep, cfg), media_body=media)
+    request = service.videos().insert(part="snippet,status", body=body, media_body=media)
     response = None
     while response is None:
         progress, response = request.next_chunk()
         if progress:
             print(f"  上傳中 {int(progress.progress() * 100)}%")
     video_id = response["id"]
-    done[ep.id] = {"video_id": video_id, "uploaded_at": datetime.now(timezone.utc).isoformat(), "publish_at": publish_at_utc(ep)}
+    if thumbnail and thumbnail.exists():
+        # 自訂縮圖需要頻道已驗證電話
+        service.thumbnails().set(videoId=video_id, media_body=MediaFileUpload(str(thumbnail), mimetype="image/png")).execute()
+    done[key] = {"video_id": video_id, "uploaded_at": datetime.now(timezone.utc).isoformat(),
+                 "publish_at": body["status"].get("publishAt")}
     f = _state_file(cfg)
     f.parent.mkdir(exist_ok=True)
     f.write_text(json.dumps(done, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -152,11 +151,11 @@ def channel_report(cfg: Config, api_key: str | None = None) -> str:
         f"- 訂閱：**{subs:,}**{hidden}",
         f"- 總觀看：{int(stats.get('viewCount', 0)):,}",
         f"- 影片數：{stats.get('videoCount', 0)}",
-        f"- 近 90 天發布的影片累計觀看：{recent_views:,}（YouTube 的 90 天 Shorts 觀看數只能在 Studio 看到，這是近似值）",
+        f"- 近 90 天發布的影片累計觀看：{recent_views:,}",
         "",
-        "## YPP 進度",
-        f"- 粉絲贊助層（500 訂閱 + 90 天 300 萬 Shorts 觀看）：訂閱 {pct(subs, YPP_FAN_FUNDING['subs'])}、觀看 {pct(recent_views, YPP_FAN_FUNDING['shorts_views_90d'])}",
-        f"- 廣告分潤（2027/2/1 後新門檻：1,000 訂閱 + 90 天 2,000 萬 Shorts 觀看）：訂閱 {pct(subs, YPP_ADS_2027['subs'])}、觀看 {pct(recent_views, YPP_ADS_2027['shorts_views_90d'])}",
+        "## YPP 進度（2027/2/1 起新申請者門檻）",
+        f"- 訂閱 {subs:,} / {YPP_ADS_2027['subs']:,}（{pct(subs, YPP_ADS_2027['subs'])}）",
+        f"- 長片觀看時數目標 {YPP_ADS_2027['watch_hours_12m']:,} 小時：公開資料看不到，請到 YouTube Studio → 收益 查看",
         "",
         "## 影片",
         "| 發布 | 標題 | 觀看 | 讚 | 留言 |",
@@ -164,8 +163,9 @@ def channel_report(cfg: Config, api_key: str | None = None) -> str:
         *rows,
         "",
         "## 本週檢討（自己填）",
-        "- 哪一支的「觀看 vs. 滑走」最好？為什麼？（YouTube Studio → 數據分析 → 觸及率）",
-        "- 哪一支平均觀看百分比最高？開頭 1 秒做了什麼？",
+        "- 長片的平均觀看時間和「觀眾留存」在哪一段掉最多？（Studio → 數據分析 → 參與度）",
+        "- 縮圖點閱率（CTR）多少？哪種縮圖文字最有效？",
+        "- 哪一支 Short 帶來最多訂閱？",
         "- 下週要改的一件事：",
         "",
     ])

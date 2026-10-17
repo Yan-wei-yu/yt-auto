@@ -1,1 +1,1 @@
-"""LittleFire 小火：原創角色「阿炭」的 YouTube Shorts 產線。"""
+"""韭菜週報：每週美股週報（長片＋Shorts）產線。"""

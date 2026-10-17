@@ -1,89 +1,43 @@
-# 阿炭的角色設定（給程式讀，也給 AI 影片工具用）
-# 每個鏡頭的 prompt 都會自動接上 prompt.style + prompt.character + 場景 + prompt.format，
-# 所以角色描述只要在這裡改一次。
+# 阿韭的角色設定（給人看，也給 AI 圖片/影片工具用）
 
-name: 阿炭
-name_en: A-Tan
-species: 炭精（一塊會走路的小木炭）
-one_liner: 脾氣火爆的小炭精，夢想成為夜市第一名廚，卻怎麼樣都學不會「小火」。
+name: 阿韭
+name_en: A-Jiu
+species: 一根韭菜（散戶的自嘲：被割了又長回來）
+one_liner: 每週都被割、每週都長回來的美股散戶。口頭禪：「這次不一樣！」
 personality:
-  - 急性子、好勝、很容易激動
-  - 對食物非常認真，失敗了也會馬上再試一次
-  - 害羞時頭上會冒一小團灰煙
-  - 不講人話，只會發出劈啪聲、「噗」、哼歌和驚叫（全世界都看得懂）
+  - 追高殺低、超容易 FOMO，但每次都真心相信「這次不一樣」
+  - 被割了會哭，哭完葉子又長回來（韌性是他唯一的優點）
+  - 手機不離手，半夜也在看盤
+  - 他是散戶，不是老師：只吐槽、不報明牌
 
-# 火焰就是情緒，也是每一集的劇情引擎：阿炭本身就是火源，
-# 他的心情直接決定鍋子的火力。
-flame_moods:
-  calm: 頭上一小撮橘黃色火苗（正常狀態）
-  excited: 火苗暴衝變高變大，東西會燒焦
-  scared: 火苗縮成一點火星，冒出一縷灰煙
-  sleepy: 火苗變成很小、很穩定的暗橘色餘燼（剛好是完美的小火）
-  love: 火苗變成愛心形狀
-  spicy: 火苗變成藍色
+# 葉子就是心情；channel/poses/ 裡有對應的圖，段落用 pose 指定
+moods:
+  flat: 葉子自然散開，平常的看戲表情
+  up: 葉子全部往上衝，瞇眼大笑，手機舉高（大漲）
+  down: 葉子枯萎下垂、冒冷汗（下跌）
+  cut: 葉子被剪平還貼 OK 繃、噴淚（崩盤、被割）
+  shock: 葉子炸開、眼睛縮小（爆量、意外消息）
 
 signature:
-  - 白毛巾綁在額頭，左側打結（台灣夜市阿伯風）
-  - 紅色小圍裙，中間有白色「菊炭」圓形紋章（同時是頻道 logo）
-  - 腳穿藍白拖
-  - 頭頂左邊、身體右下有幾道發光的橘色裂紋
+  - 圓框眼鏡
+  - 紅領帶（台灣紅＝漲，他永遠在等紅）
+  - 手機螢幕上永遠是 K 線
+  - 根鬚當腳
 
 palette:
-  body: "#3B3536"
-  body_highlight: "#5A5052"
-  ember: "#FF7A1A"
-  ember_glow: "#FFC15E"
-  flame_core: "#FFE08A"
-  cheeks: "#FF8A4C"
-  towel: "#F7F3EA"
-  apron: "#D93A2B"
-  slipper_strap: "#2F6FD6"
-  slipper_sole: "#F2F2F2"
+  leaf: "#4CAF50"
+  leaf_dark: "#2E8B3E"
+  stalk: "#EAF5D3"
+  tie: "#E53935"
+  up: "#FF4D4F"
+  down: "#22C55E"
+  navy: "#0F1420"
+  gold: "#FFD54A"
 
-prompt:
-  style: >-
-    High-quality stylized 3D animated short film look, soft warm global illumination,
-    gentle rim light, shallow depth of field, rich food textures, cute and expressive
-  character: >-
-    A-Tan, an original cute character: a small round lump of charcoal about 20 cm tall,
-    matte warm charcoal-gray body with a few glowing orange ember cracks on the top-left
-    of the head and the lower right side, big round white eyes with dark brown pupils and
-    white highlights, softly glowing orange cheeks, a small three-tongued orange-yellow flame
-    on top of the head, a white towel tied around the forehead with the knot on the left side,
-    a small red apron with a white round radial emblem, short stubby arms, tiny legs wearing
-    blue-and-white rubber slippers
-  format: >-
-    Vertical 9:16 composition, subject centered with headroom, no on-screen text
-  negative: >-
-    text, letters, subtitles, logo, watermark, tail, lizard, dragon, dinosaur, wings, horns,
-    realistic human, extra limbs, deformed face, Pokemon
-  # 第一次開工先用這段生成「定裝照」，之後每個鏡頭都把定裝照當參考圖上傳，
-  # 角色才會集集長得一樣。可以把 channel/character_sheet.png 一起丟進去當草圖。
-  reference_sheet: >-
-    Character turnaround sheet on a plain light-gray background, same character shown
-    front view, three-quarter view, side view and back view, plus four small expression
-    heads: calm (small flame), excited (huge tall flame), scared (tiny ember with a wisp of
-    smoke), in love (heart-shaped flame). Consistent proportions and colors, clean studio
-    lighting, no text.
-
-# 場景庫：episode 檔裡的 setting 對應這裡的 key
-settings:
-  home_kitchen: >-
-    a cozy small Taiwanese apartment kitchen, old two-burner gas stove, worn tiles,
-    a big rice cooker, a window with afternoon light and potted green onions on the sill
-  night_market: >-
-    a tiny food stall at a busy Taiwanese night market after dark, warm tungsten bulbs,
-    red plastic stools, steam rising, blurred bokeh crowd and neon signs in the background
-  drink_stand: >-
-    a small bright bubble-tea stand counter, stainless steel shakers, a big pot of tapioca
-    pearls, plastic cups lined up, cheerful pastel lighting
-  winter_stall: >-
-    a ginger-duck hot pot stall on a cold winter night in Taiwan, low wooden table,
-    clay pots on charcoal burners, warm steam, people's breath visible in the cold air
-
-# 設計守則：避免跟既有角色撞型
-dont:
-  - 不要尾巴、不要像蜥蜴或龍（和小火龍拉開距離）
-  - 不要做成毛茸茸的小黑球（和《神隱少女》的灰塵精靈拉開距離）
-  - 不要只有一顆眼睛、不要方塊造型（和寶可夢「小炭仔」拉開距離）
-  - 標題、標籤、說明欄不放任何寶可夢相關字眼
+# 想做 3D 版縮圖或片頭動畫時，用這段 prompt＋character_sheet.png 當參考
+prompt: >-
+  A-Jiu, an original cute cartoon character: a single leek about 25 cm tall, white-to-light-green
+  stalk body with soft vertical fibers, three long dark-green leaves on top like hair, round
+  black-rimmed glasses, rosy cheeks, a small red necktie, thin green stem arms holding a
+  smartphone showing a stock chart, little beige roots as feet. Clean stylized 3D look, soft
+  studio lighting, no text

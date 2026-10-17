@@ -1,20 +1,19 @@
-# yt-auto：LittleFire 小火
+# yt-auto：韭菜週報
 
-YouTube 頻道 [LittleFire 小火](https://www.youtube.com/@Mander_kun) 的製作中心。
+每週美股週報頻道的製作中心。主持人是原創角色**阿韭**：一根每週都被割、每週都長回來的韭菜。
 
-主角是原創角色**阿炭**：一塊脾氣火爆的小木炭，在台灣夜市學做小吃。每支 Shorts 20–30 秒、沒有對白，畫面用 AI 影片工具生成，剪輯、字幕、配樂和上傳資料由這個 repo 的程式處理。
+每週一支 5–6 分鐘的長片（大盤、本週大事、漲跌排行、「本週時事概念股」、下週行事曆），再從裡面剪 3 支 Shorts。圖表、字幕、縮圖、剪輯、上傳資料都由程式產生，你只要審稿和配音。
 
-- 📈 經營策略、收益路線圖、頻道改造清單：[`channel/strategy.md`](channel/strategy.md)
-- 🎨 角色設定：[`channel/character_sheet.png`](channel/character_sheet.png)、[`channel/character.yaml`](channel/character.yaml)
-- 🎬 前 10 集腳本（2026/10/24 起，每週二、四、六 18:00）：[`episodes/`](episodes/)
+- 📈 經營策略、每週流程、紅線、收益路線圖：[`channel/strategy.md`](channel/strategy.md)
+- 🥬 角色設定：[`channel/character_sheet.png`](channel/character_sheet.png)、頭像 [`channel/avatar.png`](channel/avatar.png)
+- 🎬 第一集（2026 第 42 週）：[`weeks/2026-w42/episode.yaml`](weeks/2026-w42/episode.yaml)
 
 ```
-channel/      角色、策略（給人看）＋ character.yaml（給程式和 AI 工具用）
-episodes/     一集一個 YAML：分鏡、AI prompt、字幕、YouTube 標題說明標籤
-yt_auto/      產線程式
-media/        你放 AI 片段和配樂的地方（不進 git）
-build/        程式輸出的 prompt 表、成片、上傳清單（不進 git）
-reports/      每週頻道週報
+channel/          角色、頭像、表情圖（poses/）、經營策略
+weeks/<週>/       episode.yaml（腳本）、market.json（行情）、voice/（你的錄音，不進 git）
+yt_auto/          產線程式
+build/            投影片、成片、Shorts、縮圖、上傳清單（不進 git）
+reports/          每週頻道數據
 ```
 
 ## 安裝（第一次）
@@ -29,56 +28,66 @@ pip install -r requirements.txt
 python -m yt_auto list
 ```
 
-## 做一集的流程
+## 每週流程
 
-**第一次開工：先做定裝照。** 打開 `channel/character.yaml`，複製 `prompt.reference_sheet` 和 `prompt.character` 到 AI 圖片工具，把 `channel/character_sheet.png` 當草圖丟進去。挑一張最滿意的，存成 `media/reference/a-tan.png`，之後每個鏡頭都用它當參考圖，阿炭才會集集長得一樣。
+```bash
+python -m yt_auto new 2026-w43      # 1. 建新的一週（或直接請 Claude 寫好）
+python -m yt_auto fetch 2026-w43    # 2. 抓本週行情 → weeks/2026-w43/market.json
+#                                     3. 寫 / 審 weeks/2026-w43/episode.yaml
+python -m yt_auto slides 2026-w43   # 4. 先看投影片和縮圖 → build/2026-w43/slides/
+#                                     5. 錄音：weeks/2026-w43/voice/s01.m4a、s02.m4a…（每段一個檔）
+python -m yt_auto build 2026-w43    # 6. 長片＋Shorts＋縮圖＋upload.md
+#                                     7. 照 build/2026-w43/upload.md 在 YouTube Studio 上傳排程
+```
 
-之後每一集：
+**配音的優先順序**：`voice/` 裡有你的錄音就用錄音；沒有就用 edge-tts 產生預覽配音（需要網路）；都沒有就是靜音版，只用來看節奏（`build --no-tts`）。
 
-1. `python -m yt_auto prompts ep01`：產生 `build/ep01/prompts.md`，裡面是逐鏡頭的英文 prompt。
-2. 在 AI 影片工具選 9:16，上傳定裝照，逐鏡頭生成。每個鏡頭挑最好的一版，存成 `media/ep01/s01.mp4`、`s02.mp4`…
-3. （選用）到 YouTube 音效庫下載配樂放進 `media/music/`，在集數 YAML 的 `music.file` 填 `music/檔名.mp3`。
-4. `python -m yt_auto build ep01`：自動裁成 1080×1920，接起來，燒進中英字幕，混入配樂。輸出 `build/ep01/ep01.mp4` 和 `build/ep01/upload.md`。
-5. 照 `upload.md` 在 YouTube Studio 上傳、排程（標題、說明、標籤、英文翻譯、設定都整理好了，複製貼上即可）。
-
-片段還沒生完、想先看節奏：`python -m yt_auto build ep01 --placeholder`，缺的鏡頭會用灰底加畫面說明代替。
+**最省事的做法**：每週六直接跟 Claude 說「做這週的韭菜週報」。它會上網整理新聞、抓行情、寫好腳本並 commit，你只要審稿、錄音、`build`、上傳。
 
 ## 指令
 
 | 指令 | 用途 |
 |---|---|
-| `python -m yt_auto list` | 所有集數的發布時間、片段進度、是否已剪好、是否已上傳 |
-| `python -m yt_auto validate` | 檢查腳本和 metadata（長度限制、禁用字、標籤長度…） |
-| `python -m yt_auto prompts ep01`／`all` | 輸出逐鏡頭 AI prompt 表 |
-| `python -m yt_auto build ep01 [--placeholder] [--music 檔案]` | 剪成片＋上傳清單 |
-| `python -m yt_auto compile ep01 … ep10 --name vol1` | 把多支 Shorts 接成 16:9 合集，附章節時間 |
-| `python -m yt_auto upload ep01 [--dry-run]` | 用 YouTube API 上傳並排程（見下方限制） |
-| `python -m yt_auto stats` | 產生頻道週報到 `reports/` |
+| `python -m yt_auto list` | 每一週的發布時間、錄音進度、是否已剪好、是否已上傳 |
+| `python -m yt_auto new 2026-w43` | 用範本建立新的一週 |
+| `python -m yt_auto fetch [週]` | 用 Yahoo Finance 抓指數和觀察名單（名單在 `config.yaml`） |
+| `python -m yt_auto validate [週]` | 檢查腳本：格式、長度、概念股有沒有標虛構、有沒有像在報明牌 |
+| `python -m yt_auto slides [週]` | 只畫投影片和縮圖 |
+| `python -m yt_auto build [週] [--no-tts] [--music 檔案]` | 剪出長片、Shorts、縮圖和上傳清單 |
+| `python -m yt_auto upload [週] [--only long\|short1] [--dry-run]` | 用 YouTube API 上傳並排程（見下方限制） |
+| `python -m yt_auto stats` | 產生頻道數據週報到 `reports/` |
 | `python -m pytest` | 跑測試 |
 
-## 寫新的一集
+省略「週」就是最新的一週。
 
-複製一個 `episodes/epXX-*.yaml` 改內容就好，再跑 `python -m yt_auto validate`。寫之前先看 [`channel/strategy.md`](channel/strategy.md) 的「不真實內容自我檢查」，出包方式和結局要跟前幾集不一樣。
+## 腳本格式
 
-YAML 小提醒：文字裡有 ` #`（空白加井號）或 `: `（冒號加空白）時，整段要用雙引號包起來，不然會被截斷。
+每段一個 `segments` 項目，`type` 決定畫面：
 
-也可以直接請 Claude 寫：「照 channel/strategy.md 的題材表，寫 EP11–EP20 的腳本」。
+| type | 畫面 | 需要的欄位 |
+|---|---|---|
+| `title` | 開場大標＋大數字 | `headline`、`stat`、`subhead` |
+| `indices` | 指數週漲跌長條圖 | （讀 `market.json`） |
+| `topic` | 一件大事：標題＋重點＋（選填）個股走勢圖 | `heading`、`bullets`、`chart` |
+| `movers` | 觀察名單漲跌排行 | （讀 `market.json`） |
+| `concept` | 本週時事概念股（虛構 K 線） | `name`、`change`、`series`、`labels` |
+| `calendar` | 下週行事曆 | `events` |
+| `outro` | 結尾 | `headline`、`bullets` |
+
+每段都要有 `narration`（旁白，也是字幕）和 `pose`（阿韭表情：`flat`、`up`、`down`、`cut`、`shock`）。有 `chapter` 的段落會自動變成 YouTube 章節。`shorts` 指定哪些段落要另外剪成直式 Short。
+
+YAML 小提醒：文字裡有 ` #` 或 `: `（冒號加空白）時，整段要用雙引號包起來。
 
 ## 自動上傳（選用）
 
-YouTube 有個限制：**用自己建立、還沒通過 YouTube 審核的 API 專案上傳，影片會被鎖在「私人」**。所以一開始用 `upload.md` 手動上傳最實際。想自動化的話：
+YouTube 有個限制：**用自己建立、還沒通過 YouTube 審核的 API 專案上傳，影片會被鎖在「私人」**。所以一開始照 `upload.md` 手動上傳最實際。想自動化的話：
 
 1. [Google Cloud Console](https://console.cloud.google.com/) 建立專案，啟用 **YouTube Data API v3**。
 2. 「OAuth 同意畫面」選外部，把自己的 Google 帳號加進測試使用者。
-3. 「憑證」→ 建立 OAuth 用戶端 ID → 類型選「電腦版應用程式」，下載 JSON 存成 `.secrets/client_secret.json`。
-4. `python -m yt_auto upload ep01 --dry-run` 確認內容，再拿掉 `--dry-run` 正式上傳。第一次會開瀏覽器登入。
+3. 「憑證」→ 建立 OAuth 用戶端 ID →「電腦版應用程式」，下載 JSON 存成 `.secrets/client_secret.json`。
+4. `python -m yt_auto upload --dry-run` 確認內容，再拿掉 `--dry-run` 正式上傳。第一次會開瀏覽器登入。
 5. 送出 [YouTube API 稽核表單](https://support.google.com/youtube/contact/yt_api_form)，通過後上傳的影片才能公開或排程。
 
-## 週報
+## 頻道數據週報
 
-`stats` 只讀公開資料，用 API 金鑰就好，不需要登入：
-
-1. 同一個 Google Cloud 專案 →「憑證」→ 建立 API 金鑰（建議限制只能用 YouTube Data API v3）。
-2. `export YOUTUBE_API_KEY=你的金鑰`，然後 `python -m yt_auto stats`。
-
-觀看時數和 Shorts 90 天觀看數只能在 YouTube Studio 看到，週報裡的是近似值。
+`stats` 只讀公開資料，用 API 金鑰就好：Google Cloud 專案 →「憑證」→ 建立 API 金鑰，然後 `export YOUTUBE_API_KEY=你的金鑰`、`python -m yt_auto stats`。觀看時數和留存只能在 YouTube Studio 看到。

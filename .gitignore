@@ -1,6 +1,7 @@
-# AI 生成的片段、配樂、成片都很大，不進 git
-media/
+# 投影片、成片都可以重新產生，不進 git
 build/
+# 你的錄音檔案很大，不進 git
+weeks/*/voice/
 # OAuth 憑證和 token，絕對不能上傳
 .secrets/
 

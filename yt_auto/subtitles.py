@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
+
+TRAILING = "，。；：、,;: "
 
 
 @dataclass
@@ -8,8 +11,6 @@ class Cue:
     start: float
     end: float
     text: str
-    text_en: str = ""
-    style: str = "Main"
 
 
 def ass_escape(text: str) -> str:
@@ -25,33 +26,48 @@ def ass_time(t: float) -> str:
     return f"{h}:{m:02d}:{s:02d}.{cs:02d}"
 
 
-def build_ass(cues: list[Cue], video: dict) -> str:
-    w, h = video["width"], video["height"]
-    font = video["font"]
-    size, size_en = video["caption_size"], video["caption_en_size"]
-    margin = video["caption_margin_bottom"]
-    # 白字黑邊，夜市招牌感的黃色英文小字；Label 給 placeholder 預覽用
+def chunk(text: str, max_chars: int = 18) -> list[str]:
+    """把旁白切成一行一行的字幕：先照標點切，太短的合併、太長的硬切。"""
+    parts = [p for p in re.split(r"(?<=[，。！？；：,!?;])", text) if p.strip()]
+    lines: list[str] = []
+    for part in parts:
+        part = part.strip()
+        while len(part) > max_chars:
+            lines.append(part[:max_chars])
+            part = part[max_chars:]
+        if lines and len(lines[-1]) + len(part) <= max_chars * 0.75 and lines[-1][-1:] not in "。！？!?":
+            lines[-1] += part
+        else:
+            lines.append(part)
+    return [ln.rstrip(TRAILING) for ln in lines if ln.rstrip(TRAILING)]
+
+
+def timed_cues(text: str, start: float, duration: float, max_chars: int = 18) -> list[Cue]:
+    """依字數比例分配時間（沒有逐字時間碼時的近似做法）。"""
+    lines = chunk(text, max_chars)
+    total = sum(len(x) for x in lines) or 1
+    cues, t = [], start
+    for line in lines:
+        d = duration * len(line) / total
+        cues.append(Cue(t, t + d, line))
+        t += d
+    return cues
+
+
+def build_ass(cues: list[Cue], width: int, height: int, font: str, size: int, margin_v: int) -> str:
     header = f"""[Script Info]
 ScriptType: v4.00+
-PlayResX: {w}
-PlayResY: {h}
+PlayResX: {width}
+PlayResY: {height}
 WrapStyle: 0
 ScaledBorderAndShadow: yes
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Main,{font},{size},&H00FFFFFF,&H00FFFFFF,&H00201A1A,&H80000000,-1,0,0,0,100,100,0,0,1,6,2,2,60,60,{margin},1
-Style: Label,{font},{max(size // 2, 20)},&H00FFFFFF,&H00FFFFFF,&H00000000,&H80000000,0,0,0,0,100,100,0,0,1,3,0,7,40,40,60,1
-Style: Action,{font},{max(size // 2, 20)},&H00E0E0E0,&H00FFFFFF,&H00000000,&H80000000,0,0,0,0,100,100,0,0,1,3,0,5,80,80,0,1
+Style: Main,{font},{size},&H00FFFFFF,&H00FFFFFF,&H00000000,&H96000000,-1,0,0,0,100,100,0,0,1,5,0,2,60,60,{margin_v},1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 """
-    events = []
-    for c in cues:
-        text = ass_escape(c.text)
-        if c.text_en:
-            text += f"\\N{{\\fs{size_en}\\c&H5EC1FF&}}{ass_escape(c.text_en)}"
-        fade = "{\\fad(120,120)}" if c.style == "Main" else ""
-        events.append(f"Dialogue: 0,{ass_time(c.start)},{ass_time(c.end)},{c.style},,0,0,0,,{fade}{text}")
+    events = [f"Dialogue: 0,{ass_time(c.start)},{ass_time(c.end)},Main,,0,0,0,,{ass_escape(c.text)}" for c in cues]
     return header + "\n".join(events) + "\n"
