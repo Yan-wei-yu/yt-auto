@@ -9,11 +9,11 @@ from pathlib import Path
 import matplotlib
 
 matplotlib.use("Agg")
-import matplotlib.image as mpimg  # noqa: E402
 import matplotlib.pyplot as plt  # noqa: E402
 from matplotlib import font_manager, patheffects  # noqa: E402
 from matplotlib.patches import FancyBboxPatch, Rectangle  # noqa: E402
 
+from .cartoon import draw_stage, load_cast  # noqa: E402
 from .config import Config  # noqa: E402
 from .week import Segment, Week  # noqa: E402
 
@@ -32,7 +32,7 @@ logging.getLogger("matplotlib.font_manager").setLevel(logging.ERROR)
 class Theme:
     up: str
     down: str
-    poses: Path
+    cast: dict
 
     def sign_color(self, value: float) -> str:
         return self.up if value >= 0 else self.down
@@ -44,13 +44,13 @@ class Layout:
     width: int
     height: int
     content: tuple[float, float, float, float]  # x0, y0, x1, y1（圖的比例座標）
-    pose: tuple[float, float, float, float]
+    stage: tuple[float, float, float, float]  # 卡通舞台
     scale: float  # 字級倍率
 
 
-# Shorts：上半部放內容，中間留給字幕，下面放阿韭；右側和底部會被 YouTube 的按鈕和標題蓋住
-LANDSCAPE = dict(content=(0.05, 0.20, 0.66, 0.86), pose=(0.68, 0.12, 0.98, 0.88), scale=1.0)
-PORTRAIT = dict(content=(0.07, 0.50, 0.93, 0.92), pose=(0.22, 0.10, 0.78, 0.39), scale=1.2)
+# Shorts：上半部放內容，中間留給字幕，下面是卡通舞台；右側和底部會被 YouTube 的按鈕和標題蓋住
+LANDSCAPE = dict(content=(0.05, 0.20, 0.61, 0.86), stage=(0.63, 0.10, 0.98, 0.89), scale=1.0)
+PORTRAIT = dict(content=(0.07, 0.50, 0.93, 0.92), stage=(0.04, 0.07, 0.96, 0.385), scale=1.2)
 
 
 def setup_fonts(families: list[str]) -> None:
@@ -129,15 +129,11 @@ class Slide:
         self.text(0.05 if self.l.portrait else 0.04, y, "韭菜週報", 34, GOLD)
         self.text(0.95 if self.l.portrait else 0.96, y, self.week.label, 26, MUTED, weight="normal", ha="right")
 
-    def pose(self, name: str):
-        path = self.t.poses / f"{name}.png"
-        if not path.exists():
-            return
-        x0, y0, x1, y1 = self.l.pose
+    def stage(self, entries: list[dict], arrow: str | None = None, region=None):
+        x0, y0, x1, y1 = region or self.l.stage
         ax = self.fig.add_axes((x0, y0, x1 - x0, y1 - y0))
-        ax.imshow(mpimg.imread(path))
-        ax.set_anchor("S")
-        ax.axis("off")
+        draw_stage(ax, self.t.cast, entries, (x1 - x0) * self.l.width, (y1 - y0) * self.l.height,
+                   arrow=arrow, up=self.t.up, down=self.t.down)
 
     def save(self, path: Path):
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -291,7 +287,7 @@ DRAW = {
 
 
 def theme(cfg: Config) -> Theme:
-    return Theme(up=cfg.market["up_color"], down=cfg.market["down_color"], poses=cfg.path("poses"))
+    return Theme(up=cfg.market["up_color"], down=cfg.market["down_color"], cast=load_cast(cfg.path("cast")))
 
 
 def layout(cfg: Config, portrait: bool) -> Layout:
@@ -306,18 +302,18 @@ def render_segment(seg: Segment, week: Week, cfg: Config, out: Path, portrait: b
     s = Slide(layout(cfg, portrait), theme(cfg), week)
     s.header()
     DRAW[seg.type](s, seg)
-    s.pose(seg.pose)
+    s.stage(seg.get("cast", []), seg.get("arrow"))
     s.save(out)
     return out
 
 
 def render_thumbnail(week: Week, cfg: Config, out: Path) -> Path:
-    """1280×720 縮圖：大字＋阿韭表情。thumbnail.lines 第二行通常放漲跌幅。"""
+    """1280×720 縮圖：大字＋本週新聞人物的卡通。thumbnail.lines 最後一行通常放漲跌幅。"""
     setup_fonts(cfg.video["fonts"])
     th = week.thumbnail
-    lay = Layout(False, 1280, 720, content=(0.05, 0.08, 0.62, 0.92), pose=(0.56, 0.0, 1.0, 1.0), scale=1.0)
+    lay = Layout(False, 1280, 720, content=(0.05, 0.08, 0.62, 0.92), stage=(0.55, 0.03, 0.99, 0.97), scale=1.0)
     s = Slide(lay, theme(cfg), week)
-    s.pose(th.get("pose", "flat"))
+    s.stage(th.get("cast", []), th.get("arrow"))
     color = s.t.up if th.get("color") == "up" else s.t.down if th.get("color") == "down" else GOLD
     if th.get("tag"):
         s.text(0.05, 0.90, f" {th['tag']} ", 64, NAVY, bbox=dict(boxstyle="round,pad=0.3", fc=GOLD, ec="none"))

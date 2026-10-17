@@ -40,9 +40,13 @@ def test_validation_rules():
     concept.narration = "這檔一定會漲，目標價一百"
     topic = next(s for s in week.segments if s.type == "topic")
     topic.fields["chart"] = "NOPE"
+    # 真實人物的對話框沒標 quote: true（不是真實引述）要擋下來
+    topic.fields["cast"] = [{"who": "warsh", "mood": "laugh", "say": "我要升息啦"}, {"who": "nobody"}]
     errors, warnings = check(week, cfg)
     assert any("虛構" in e for e in errors)
     assert any("NOPE" in e for e in errors)
+    assert any("真實引述" in e for e in errors)
+    assert any("nobody" in e for e in errors)
     assert any("目標價" in w for w in warnings)
     assert tags_length(["a b", "cd"]) == 3 + 2 + 2 + 1
 

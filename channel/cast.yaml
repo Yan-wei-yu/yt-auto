@@ -1,0 +1,105 @@
+# 卡通角色庫：每週新聞裡的人物，和擬人化的公司、數據。
+# 腳本裡用 cast: [{who: warsh, mood: zipped, arms: down, say: ..., quote: true}] 叫他們上台。
+#
+# 人物（kind: person）
+#   real: true 代表真實人物 → 對話框只能放他真的說過的話（並在段落加 quote: true），玩笑留給旁白
+#   hair.style：short / side_part / swept / spiky / bald / long
+#   outfit.type：suit（西裝，可設 tie 顏色）/ leather（皮衣）/ tshirt
+# 物件（kind: object）
+#   shape：server（伺服器）/ gas_pump（加油機）/ barrel（油桶）/ bank（銀行）/ podium（講台，給團體角色）/ screen（報價螢幕，給指數）
+#
+# 原則：辨識靠名牌和招牌穿著，不誇大長相；不畫寫實臉孔、不用照片。
+
+warsh:
+  name: 華許
+  role: Fed 主席
+  kind: person
+  real: true
+  skin: "#F3CFAE"
+  hair: {style: side_part, color: "#C8C8C8"}
+  outfit: {type: suit, color: "#24324F", tie: "#2F6FD6"}
+
+wei:
+  name: 魏哲家
+  role: 台積電董事長
+  kind: person
+  real: true
+  skin: "#EDC6A0"
+  hair: {style: short, color: "#3B3B3B"}
+  glasses: true
+  outfit: {type: suit, color: "#33363D", tie: "#C0392B"}
+
+jensen:
+  name: 黃仁勳
+  role: 輝達執行長
+  kind: person
+  real: true
+  skin: "#EDC6A0"
+  hair: {style: swept, color: "#D4D4D4"}
+  outfit: {type: leather, color: "#161616", pants: "#161616"}
+
+musk:
+  name: 馬斯克
+  role: 特斯拉執行長
+  kind: person
+  real: true
+  skin: "#F3CFAE"
+  hair: {style: short, color: "#5A4632"}
+  outfit: {type: tshirt, color: "#1E1E1E", pants: "#2A2A33"}
+
+gov:
+  name: 政府
+  role: ""
+  kind: object
+  shape: podium
+  color: "#8A94A6"
+
+kmt_caucus:
+  name: 國民黨團
+  role: ""
+  kind: object
+  shape: podium
+  color: "#8A94A6"
+
+coreweave:
+  name: CoreWeave
+  role: AI 雲端算力
+  kind: object
+  shape: server
+  color: "#4B5BD7"
+
+cpi:
+  name: 通膨
+  role: 九月 CPI
+  kind: object
+  shape: gas_pump
+  color: "#E04B3A"
+  display: "3.7%"
+
+oil:
+  name: 能源股
+  role: ""
+  kind: object
+  shape: barrel
+  color: "#4A4F5C"
+
+bofa:
+  name: 美國銀行
+  role: ""
+  kind: object
+  shape: bank
+  color: "#3B6FB6"
+
+nasdaq:
+  name: 那斯達克
+  role: 科技股指數
+  kind: object
+  shape: screen
+  color: "#3A7BD5"
+
+dow:
+  name: 道瓊
+  role: 傳產權值股指數
+  kind: object
+  shape: screen
+  color: "#C9A227"

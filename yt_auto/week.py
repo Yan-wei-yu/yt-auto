@@ -10,10 +10,10 @@ from zoneinfo import ZoneInfo
 
 import yaml
 
+from .cartoon import ARMS, HOLDING, MOODS, load_cast
 from .config import Config
 
 SEGMENT_TYPES = {"title", "indices", "topic", "movers", "concept", "calendar", "outro"}
-POSES = {"flat", "up", "down", "cut", "shock"}
 SHORTS_MAX_SECONDS = 180
 
 # 在台灣沒有投顧執照公開推薦個股可能違法；旁白出現這些字只警告，因為引述新聞時可能合理出現
@@ -28,7 +28,6 @@ class Segment:
     id: str
     type: str
     narration: str
-    pose: str = "flat"
     chapter: str | None = None
     fields: dict[str, Any] = field(default_factory=dict)
 
@@ -81,7 +80,7 @@ def load_week(folder: Path, cfg: Config) -> Week:
         s = dict(s)
         segments.append(Segment(
             id=s.pop("id"), type=s.pop("type"), narration=" ".join(str(s.pop("narration", "")).split()),
-            pose=s.pop("pose", "flat"), chapter=s.pop("chapter", None), fields=s,
+            chapter=s.pop("chapter", None), fields=s,
         ))
     shorts = [
         Short(id=sh["id"], segments=list(sh["segments"]), title=sh["title"], description=sh.get("description", ""),
@@ -119,9 +118,28 @@ def tags_length(tags: list[str]) -> int:
     return sum(len(t) + (2 if " " in t else 0) for t in tags) + max(len(tags) - 1, 0)
 
 
+def check_cast(label: str, entries: list[dict], cast: dict, errors: list[str]) -> None:
+    for e in entries:
+        who = e.get("who")
+        if who not in cast:
+            errors.append(f"{label}: channel/cast.yaml 裡沒有角色 {who}")
+            continue
+        if e.get("mood", "neutral") not in MOODS:
+            errors.append(f"{label}: mood 必須是 {sorted(MOODS)} 其中之一")
+        if e.get("arms", "down") not in ARMS | {"none"}:
+            errors.append(f"{label}: arms 必須是 {sorted(ARMS)} 其中之一")
+        if e.get("holding") and e["holding"].get("type") not in HOLDING:
+            errors.append(f"{label}: holding.type 必須是 {sorted(HOLDING)} 其中之一")
+        # 真實人物的對話框只能放他真的說過的話
+        if cast[who].get("real") and e.get("say") and not e.get("quote"):
+            errors.append(f"{label}: {cast[who]['name']} 是真實人物，對話框只能放真實引述（確認後加 quote: true），玩笑請放旁白")
+
+
 def validate(week: Week, cfg: Config, descriptions: list[str]) -> tuple[list[str], list[str]]:
     errors: list[str] = []
     warnings: list[str] = []
+    cast = load_cast(cfg.path("cast"))
+    check_cast("thumbnail", week.thumbnail.get("cast", []), cast, errors)
 
     if not re.fullmatch(r"\d{4}-w\d{2}", week.id):
         errors.append(f"id 要像 2026-w42：{week.id}")
@@ -133,8 +151,7 @@ def validate(week: Week, cfg: Config, descriptions: list[str]) -> tuple[list[str
     for s in week.segments:
         if s.type not in SEGMENT_TYPES:
             errors.append(f"{s.id}: type 必須是 {sorted(SEGMENT_TYPES)} 其中之一")
-        if s.pose not in POSES:
-            errors.append(f"{s.id}: pose 必須是 {sorted(POSES)} 其中之一")
+        check_cast(s.id, s.get("cast", []), cast, errors)
         if not s.narration:
             errors.append(f"{s.id}: 缺少 narration（旁白）")
         if s.type in ("indices", "movers") and not week.market:

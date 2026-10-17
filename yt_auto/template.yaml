@@ -7,7 +7,9 @@ thumbnail:
   tag: （縮圖上的黃色小標）
   lines: [（第一行）, "（第二行，通常放漲跌幅）"]
   color: down   # up / down
-  pose: down    # flat / up / down / cut / shock
+  arrow: down
+  cast:
+    - {who: nasdaq, mood: cry}
 
 youtube:
   title: （長片標題，100 字以內）
@@ -17,29 +19,33 @@ youtube:
   hashtags: [美股, 韭菜週報]
 
 # type：title / indices / topic / movers / concept / calendar / outro
-# pose：flat / up / down / cut / shock
+# cast：本週新聞人物（channel/cast.yaml），沒有的先加進 cast.yaml
+#   mood：neutral / happy / laugh / shocked / nervous / cry / smug / angry / zipped
+#   arms：down / up / hold / shrug / facepalm / point
+#   holding：{type: card | sign | cash, text: ...}
+#   say：對話框；真實人物只能放真的說過的話，並加 quote: true
 segments:
   - id: s01
     type: title
     chapter: 開場
-    pose: flat
+    cast: [{who: nasdaq, mood: neutral}]
     headline: （大標）
     stat: {label: 那斯達克 本週, value: 0}
     subhead: （副標）
     narration: >-
-      大家好，我是阿韭……
+      大家好，歡迎收看韭菜週報……
 
   - id: s02
     type: indices
     chapter: 本週大盤
-    pose: flat
+    cast: [{who: nasdaq, mood: neutral}]
     narration: >-
       先看大盤……
 
   - id: s03
     type: topic
     chapter: 大事一
-    pose: flat
+    cast: [{who: nasdaq, mood: neutral}]
     tag: 大事 1
     heading: （這件事的標題）
     chart:          # 選填：market.json 裡的代號，例如 NVDA
@@ -50,14 +56,14 @@ segments:
   - id: s04
     type: movers
     chapter: 本週漲跌排行
-    pose: flat
+    cast: [{who: nasdaq, mood: neutral}]
     narration: >-
       整理一下這週的觀察名單……
 
   - id: s05
     type: concept
     chapter: 本週時事概念股
-    pose: up
+    cast: [{who: nasdaq, mood: neutral}]
     name: （XX 概念股）
     change: （漲跌幅文字）
     series: [10, 12, 18, 15, 25]
@@ -69,7 +75,7 @@ segments:
   - id: s06
     type: calendar
     chapter: 下週行事曆
-    pose: flat
+    cast: [{who: nasdaq, mood: neutral}]
     events:
       - {date: （日期）, item: （事件）}
     narration: >-
@@ -78,8 +84,8 @@ segments:
   - id: s07
     type: outro
     chapter: 結尾
-    pose: up
-    headline: 我是阿韭，下週再一起被割
+    cast: [{who: nasdaq, mood: neutral}]
+    headline: 下週再一起被割
     bullets: [訂閱：每週日 20:00，一起看完一週美股]
     narration: >-
       以上就是這週的韭菜週報……

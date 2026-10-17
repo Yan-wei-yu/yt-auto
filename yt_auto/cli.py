@@ -150,6 +150,32 @@ def cmd_upload(args, cfg) -> int:
     return 0
 
 
+def cmd_cast(args, cfg) -> int:
+    """把角色庫全部畫成一張總表，方便確認造型（新增角色後跑一次）。"""
+    import matplotlib.pyplot as plt
+
+    from .cartoon import draw_stage, load_cast
+
+    slides.setup_fonts(cfg.video["fonts"])
+    cast = load_cast(cfg.path("cast"))
+    keys = list(cast)
+    cols = 4
+    rows = (len(keys) + cols - 1) // cols
+    fig = plt.figure(figsize=(19.2, 4.2 * rows), dpi=100)
+    fig.patch.set_facecolor(slides.NAVY)
+    for i, key in enumerate(keys):
+        r, c = divmod(i, cols)
+        ax = fig.add_axes((0.01 + c * 0.2475, 1 - (r + 1) / rows + 0.01 / rows, 0.2375, 0.98 / rows))
+        draw_stage(ax, cast, [{"who": key, "mood": "happy" if i % 2 else "neutral"}], 0.2375 * 1920, 0.98 / rows * 420 * rows)
+        ax.text(0.04, 0.96, key, transform=ax.transAxes, va="top", color=slides.MUTED, fontsize=16)
+    out = Path(args.out) if args.out else cfg.path("build") / "cast_sheet.png"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(out, facecolor=slides.NAVY)
+    plt.close(fig)
+    print(f"✓ 角色總表：{out}")
+    return 0
+
+
 def cmd_stats(args, cfg) -> int:
     report = youtube.channel_report(cfg)
     out = cfg.path("reports") / f"{datetime.now():%Y-%m-%d}.md"
@@ -194,6 +220,10 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--only", help="只傳 long 或某支 short 的 id")
     p.add_argument("--dry-run", action="store_true", help="只印出要送出的 metadata")
     p.set_defaults(func=cmd_upload)
+
+    p = sub.add_parser("cast", help="把 channel/cast.yaml 的角色畫成總表")
+    p.add_argument("--out")
+    p.set_defaults(func=cmd_cast)
 
     sub.add_parser("stats", help="產生頻道週報（需要 YOUTUBE_API_KEY）").set_defaults(func=cmd_stats)
 

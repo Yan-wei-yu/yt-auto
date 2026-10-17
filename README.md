@@ -1,15 +1,15 @@
 # yt-auto：韭菜週報
 
-每週美股週報頻道的製作中心。主持人是原創角色**阿韭**：一根每週都被割、每週都長回來的韭菜。
+每週美股週報頻道的製作中心：用搞笑卡通看完一週美股。沒有固定主持角色，**當週新聞裡的人物和公司就是這週的卡通角色**（Fed 主席、台積電董事長、哭哭的 AI 伺服器、生氣的加油機……）。
 
-每週一支 5–6 分鐘的長片（大盤、本週大事、漲跌排行、「本週時事概念股」、下週行事曆），再從裡面剪 3 支 Shorts。圖表、字幕、縮圖、剪輯、上傳資料都由程式產生，你只要審稿和配音。
+每週一支 5–6 分鐘的長片（大盤、本週大事、漲跌排行、「本週時事概念股」、下週行事曆），再從裡面剪 3 支 Shorts。圖表、卡通、字幕、縮圖、剪輯、上傳資料都由程式產生，你只要審稿和配音。
 
 - 📈 經營策略、每週流程、紅線、收益路線圖：[`channel/strategy.md`](channel/strategy.md)
-- 🥬 角色設定：[`channel/character_sheet.png`](channel/character_sheet.png)、頭像 [`channel/avatar.png`](channel/avatar.png)
+- 🎭 卡通角色庫：[`channel/cast.yaml`](channel/cast.yaml)（總表 [`channel/cast_sheet.png`](channel/cast_sheet.png)）、頭像 [`channel/avatar.png`](channel/avatar.png)
 - 🎬 第一集（2026 第 42 週）：[`weeks/2026-w42/episode.yaml`](weeks/2026-w42/episode.yaml)
 
 ```
-channel/          角色、頭像、表情圖（poses/）、經營策略
+channel/          卡通角色庫、頭像、經營策略
 weeks/<週>/       episode.yaml（腳本）、market.json（行情）、voice/（你的錄音，不進 git）
 yt_auto/          產線程式
 build/            投影片、成片、Shorts、縮圖、上傳清單（不進 git）
@@ -55,6 +55,7 @@ python -m yt_auto build 2026-w43    # 6. 長片＋Shorts＋縮圖＋upload.md
 | `python -m yt_auto slides [週]` | 只畫投影片和縮圖 |
 | `python -m yt_auto build [週] [--no-tts] [--music 檔案]` | 剪出長片、Shorts、縮圖和上傳清單 |
 | `python -m yt_auto upload [週] [--only long\|short1] [--dry-run]` | 用 YouTube API 上傳並排程（見下方限制） |
+| `python -m yt_auto cast` | 把角色庫畫成總表，新增角色後確認造型 |
 | `python -m yt_auto stats` | 產生頻道數據週報到 `reports/` |
 | `python -m pytest` | 跑測試 |
 
@@ -74,7 +75,21 @@ python -m yt_auto build 2026-w43    # 6. 長片＋Shorts＋縮圖＋upload.md
 | `calendar` | 下週行事曆 | `events` |
 | `outro` | 結尾 | `headline`、`bullets` |
 
-每段都要有 `narration`（旁白，也是字幕）和 `pose`（阿韭表情：`flat`、`up`、`down`、`cut`、`shock`）。有 `chapter` 的段落會自動變成 YouTube 章節。`shorts` 指定哪些段落要另外剪成直式 Short。
+每段都要有 `narration`（旁白，也是字幕）。`cast` 決定這段誰上台：
+
+```yaml
+cast:
+  - {who: warsh, mood: zipped, say: 我不預判會議, quote: true}   # 真實人物的對話框只能放真實引述
+  - {who: wei, mood: nervous, arms: hold, holding: {type: card, text: "EPS 4.60"}}
+arrow: down   # 舞台背景的大趨勢線（up / down）
+```
+
+- `who`：`channel/cast.yaml` 裡的角色；本週新聞有新人物就先加進去。
+- `mood`：`neutral`、`happy`、`laugh`、`shocked`、`nervous`、`cry`、`smug`、`angry`、`zipped`（嘴巴拉鍊）
+- `arms`：`down`、`up`、`hold`、`shrug`、`facepalm`、`point`
+- `holding`：手上拿 `card`（成績單）、`sign`（舉牌）、`cash`（鈔票）
+
+有 `chapter` 的段落會自動變成 YouTube 章節。`shorts` 指定哪些段落要另外剪成直式 Short。
 
 YAML 小提醒：文字裡有 ` #` 或 `: `（冒號加空白）時，整段要用雙引號包起來。
 
