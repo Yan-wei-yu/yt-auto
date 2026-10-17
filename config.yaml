@@ -1,0 +1,56 @@
+# 頻道與產線設定。改這裡就好，程式不用動。
+
+channel:
+  name: LittleFire 小火
+  channel_id: UCZ_STmoY44fdZi7gr1B87Mw
+  timezone: Asia/Taipei
+  # 預設語言是繁中；每支影片另外帶英文標題/說明，上傳時寫進 localizations，
+  # 英文介面的觀眾會直接看到英文版。
+  default_language: zh-TW
+
+youtube:
+  # 1 = Film & Animation（電影與動畫）
+  category_id: "1"
+  # 「為兒童打造」是你對 YouTube 的法律聲明（美國 COPPA）。
+  # 頻道定位是給一般觀眾的美食搞笑動畫，所以預設 false；
+  # 如果內容改成以兒童為主要觀眾，一定要改成 true。
+  made_for_kids: false
+  # 「經過修改或合成的內容」揭露：只有「看起來像真的」的 AI 畫面才需要勾。
+  # 阿炭是明顯的卡通角色，所以預設 false；若做寫實風格的畫面要改 true。
+  contains_synthetic_media: false
+  license: youtube
+  # 每支影片固定附在說明欄最後
+  description_footer: |
+    🔥 LittleFire｜阿炭的小火廚房
+    一塊脾氣火爆的小木炭，想學會用「小火」煮出台灣味。每週二、四、六 18:00 更新。
+    劇本與角色由創作者原創，畫面使用 AI 工具輔助生成。
+  description_footer_en: |
+    🔥 LittleFire | A-Tan's Low-Fire Kitchen
+    A hot-tempered little lump of charcoal learning to cook Taiwanese food on low heat.
+    New episodes every Tue / Thu / Sat.
+    Original story and character; visuals made with the help of AI tools.
+
+video:
+  width: 1080
+  height: 1920
+  fps: 30
+  # AI 影片如果不是 9:16：cover = 裁切填滿；blur = 原比例置中、模糊背景補邊
+  fit: cover
+  # 有些 AI 工具（例如會生成音效的模型）片段自帶聲音，true 就保留
+  keep_clip_audio: true
+  clip_audio_volume: 1.0
+  music_volume: 0.22
+  # libass 找不到這個字型時會自動改用系統裡的其他中文字型
+  font: Noto Sans TC
+  caption_size: 76
+  caption_en_size: 44
+  # 字幕離底部的距離（px）。Shorts 底部有標題和按鈕，留高一點才不會被擋住。
+  caption_margin_bottom: 560
+
+paths:
+  episodes: episodes
+  media: media
+  build: build
+  reports: reports
+  state: state
+  secrets: .secrets

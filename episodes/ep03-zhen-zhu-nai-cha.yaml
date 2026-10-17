@@ -1,0 +1,90 @@
+id: ep03
+slug: zhen-zhu-nai-cha
+dish: 黑糖珍奶
+title: 珍珠搓太大顆了
+title_en: The Pearl Is Too Big
+setting: drink_stand
+publish_at: 2026-10-29 18:00
+logline: 搓珍珠要很有耐心，阿炭等不及一顆一顆搓，乾脆搓一顆跟自己一樣大的。
+music:
+  mood: 俏皮的木琴與撥弦
+  file:
+
+shots:
+  - id: s01
+    beat: hook
+    duration: 4
+    action: 阿炭抱著一顆跟自己一樣大的黑色珍珠，拼命想塞進普通吸管口，完全塞不進去。
+    camera: medium shot on the counter, cup and straw in frame
+    prompt: >-
+      A-Tan hugs a glossy black tapioca pearl as big as his own body and pushes with all his
+      strength to jam it into the top of a regular bubble-tea straw. It obviously does not fit
+    sfx: 用力的哼聲、吸管被壓扁的聲音
+    caption: 這…塞得進去嗎？
+    caption_en: Will this... fit?
+
+  - id: s02
+    beat: setup
+    duration: 5
+    action: （倒敘）他揉黑糖粉團、一顆一顆搓小珍珠，旁邊還有一大盤沒搓，他腳打拍子、火苗越來越高。
+    camera: close-up on A-Tan's hands and the tray
+    prompt: >-
+      Earlier: A-Tan kneads dark brown-sugar tapioca dough and rolls tiny pearls one by one
+      between his stubby hands. A huge tray of dough still waits beside him. He grows impatient,
+      tapping his foot, his head flame rising higher
+    sfx: 搓揉聲、腳打拍子
+    caption: 一顆一顆搓…要搓到什麼時候
+    caption_en: One by one... this will take forever
+
+  - id: s03
+    beat: trouble
+    duration: 5
+    action: 他把整團粉團揉成一顆大球，丟進黑糖鍋裡煮，鍋子搖晃、黑糖漿濺出來。
+    camera: medium shot of the pot on the stove
+    prompt: >-
+      A-Tan scoops up the whole lump of dough, rolls it into one giant ball, and heaves it into a
+      pot of bubbling brown-sugar syrup. The pot wobbles and dark syrup sloshes over the rim
+    sfx: 「咚」、黑糖漿濺出來
+    caption: 一次搓一顆大的就好了吧！
+    caption_en: Just make ONE big one!
+
+  - id: s04
+    beat: twist
+    duration: 5
+    action: 他拖來一根巨大的不鏽鋼管當吸管，插進水桶大的杯子裡猛吸，臉頰鼓起。
+    camera: wide shot showing the bucket-sized cup and the giant straw
+    prompt: >-
+      A-Tan drags in a huge stainless-steel pipe as a giant straw and plunges it into a
+      bucket-sized cup of milk tea with the giant pearl at the bottom. He sucks hard, cheeks
+      puffing out, his whole body straining
+    sfx: 用力吸的聲音、咕嚕咕嚕
+    caption: 那就換一根大吸管
+    caption_en: Then get a bigger straw
+
+  - id: s05
+    beat: ending
+    duration: 5
+    action: 「啵」一聲珍珠被吸上來卡進他嘴裡，臉頰塞得圓滾滾，一臉滿足說不出話，頭上冒一團煙。
+    camera: close-up on A-Tan's face
+    prompt: >-
+      With a loud pop the giant pearl shoots up the pipe and lands in A-Tan's mouth, stuffing his
+      cheeks completely round. He chews with a blissful, speechless face while a small puff of
+      smoke rises from his head
+    sfx: 「啵！」、嚼嚼嚼
+    caption: Q 到說不出話
+    caption_en: Too chewy to speak
+
+youtube:
+  title: 阿炭懶得搓珍珠，直接搓了一顆跟他一樣大的 🧋
+  title_en: Too lazy to roll tiny boba, so he made one GIANT pearl 🧋
+  description: |
+    搓珍珠要很有耐心，偏偏阿炭最沒有的就是耐心。
+
+    你喝珍奶是全糖還是微糖？
+  description_en: |
+    Rolling tapioca pearls takes patience, the one thing A-Tan doesn't have.
+
+    Full sugar or half sugar?
+  tags: [阿炭, LittleFire, 珍珠奶茶, 黑糖珍奶, 手搓珍珠, 台灣小吃, 美食動畫, bubble tea, boba, giant boba, Taiwanese drinks, cooking animation]
+  hashtags: [阿炭, 珍珠奶茶, 台灣美食]
+  hashtags_en: [ATan, BubbleTea, Boba]

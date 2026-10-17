@@ -1,0 +1,90 @@
+id: ep08
+slug: chou-dou-fu
+dish: 臭豆腐
+title: 臭到火都熄了
+title_en: So Stinky His Fire Went Out
+setting: night_market
+publish_at: 2026-11-10 18:00
+logline: 第一次炸臭豆腐，阿炭被味道熏到火都熄了。（結局：從害怕變成愛上）
+music:
+  mood: 懸疑的低音提琴，最後轉成浪漫的弦樂
+  file:
+
+shots:
+  - id: s01
+    beat: hook
+    duration: 4
+    action: 一團卡通式的綠色臭味雲飄過來，阿炭頭上的火「滋」一聲熄滅，只剩一縷白煙，他整個僵住。
+    camera: medium close-up on A-Tan
+    prompt: >-
+      A cartoonish wavy green cloud of smell drifts across the stall and washes over A-Tan. His
+      head flame goes out with a tiny fizz, leaving only a thin wisp of white smoke. He freezes
+      stiff, eyes wide
+    sfx: 「滋——」熄火聲、一陣冷風
+    caption: 火…熄了
+    caption_en: His fire... went out
+
+  - id: s02
+    beat: setup
+    duration: 5
+    action: （稍早）阿炭自信地把一塊塊豆腐放進油鍋，雙手叉腰。
+    camera: medium shot of the stall
+    prompt: >-
+      Earlier: A-Tan confidently slides blocks of fermented tofu into bubbling oil at the
+      night-market stall, then puts his hands on his hips with a proud grin
+    sfx: 下鍋的滋滋聲、得意的哼聲
+    caption: 今天挑戰：臭豆腐
+    caption_en: "Today's challenge: stinky tofu"
+
+  - id: s03
+    beat: trouble
+    duration: 5
+    action: 味道升起，他用雙手摀住臉、搖搖晃晃，火苗越來越小、顏色越來越淡。
+    camera: close-up, slightly dutch angle
+    prompt: >-
+      As the tofu fries, the smell rises. A-Tan covers his face with both tiny hands, wobbling
+      dizzily, his head flame shrinking smaller and smaller and turning pale
+    sfx: 暈眩的音效
+    caption: 這是…食物嗎？
+    caption_en: Is this... food?
+
+  - id: s04
+    beat: twist
+    duration: 5
+    action: 他鼓起勇氣夾一塊，加泡菜、淋醬油膏，閉眼咬下。
+    camera: close-up on chopsticks and the tofu
+    prompt: >-
+      Trembling, A-Tan picks up one golden crispy tofu cube with chopsticks, piles on pickled
+      cabbage and a drizzle of sweet soy paste, squeezes his eyes shut, and takes a brave bite
+    sfx: 酥脆的咬下聲
+    caption: 拼了！
+    caption_en: Here goes nothing!
+
+  - id: s05
+    beat: ending
+    duration: 5
+    action: 他眼睛猛然睜開，火「轟」一聲重新點燃成大愛心，抱住整盤臭豆腐。
+    camera: medium close-up, warm glow
+    prompt: >-
+      A-Tan's eyes snap open wide. His head flame reignites with a whoosh into a big heart shape,
+      glowing brighter than ever. He hugs the whole plate of stinky tofu lovingly
+    sfx: 「轟」點火聲、愛心音效
+    caption: 聞起來臭，吃起來香
+    caption_en: Smells awful. Tastes amazing.
+
+youtube:
+  title: 阿炭第一次炸臭豆腐，被臭到火都熄了 😵
+  title_en: First time making stinky tofu... the smell put his fire OUT 😵
+  description: |
+    臭豆腐，聞起來臭、吃起來香。
+    問題是阿炭要先撐過「聞」這一關。
+
+    你敢吃臭豆腐嗎？
+  description_en: |
+    Stinky tofu: smells terrible, tastes incredible.
+    A-Tan just has to survive the smelling part first.
+
+    Would you dare to try stinky tofu?
+  tags: [阿炭, LittleFire, 臭豆腐, 夜市, 台灣小吃, 美食動畫, 3D動畫, stinky tofu, Taiwanese street food, night market, food challenge, cooking animation]
+  hashtags: [阿炭, 臭豆腐, 夜市美食]
+  hashtags_en: [ATan, StinkyTofu, TaiwanStreetFood]

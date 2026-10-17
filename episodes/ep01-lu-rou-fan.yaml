@@ -1,0 +1,104 @@
+id: ep01
+slug: lu-rou-fan
+dish: 滷肉飯
+title: 小火慢滷的滷肉飯
+title_en: Braised Pork Rice, Low and Slow
+setting: home_kitchen
+publish_at: 2026-10-24 18:00
+logline: 阿嬤的食譜寫著「小火慢滷三小時」，可是阿炭是一塊一激動就暴衝的木炭。（頻道名「小火」的由來）
+music:
+  mood: 溫暖的木吉他 lo-fi，最後一顆鏡頭轉輕快
+  file:
+
+shots:
+  - id: s01
+    beat: hook
+    duration: 4
+    action: 阿炭坐在瓦斯爐口當火源，頭上火焰暴衝，鍋裡的滷汁大滾噴出來，他雙手亂揮。
+    camera: medium close-up, slightly low angle on the stove
+    prompt: >-
+      A-Tan sits inside the burner ring of the gas stove as its heat source, a pot of dark
+      soy-braised pork above him. His head flame suddenly roars up huge and the pot boils over,
+      brown sauce bubbling and splashing over the rim. A-Tan flails his tiny arms in panic
+    sfx: 大滾冒泡、滷汁噴濺、劈啪、阿炭尖叫
+    caption: 滷肉飯…失敗第 7 次
+    caption_en: "Braised pork rice... attempt #7"
+
+  - id: s02
+    beat: setup
+    duration: 5
+    action: 他爬出來看貼在牆上的手寫食譜卡，眼睛越睜越大。
+    camera: over-the-shoulder close-up on a small recipe card taped to the tiles
+    prompt: >-
+      A-Tan climbs out and leans close to a small handwritten recipe card taped to the kitchen
+      tiles, a soy sauce smudge on its corner. He reads it, and his big eyes slowly widen in shock
+    sfx: 紙張聲、頭上「噗」冒出一小團煙
+    caption: 阿嬤的食譜：小火，慢滷三小時
+    caption_en: "Grandma's recipe: LOW heat, 3 hours"
+
+  - id: s03
+    beat: trouble
+    duration: 5
+    action: 回到爐口，他緊閉雙眼、握拳憋氣，努力把火變小，火苗忽大忽小抖個不停。
+    camera: close-up on A-Tan's face under the pot
+    prompt: >-
+      Back under the pot, A-Tan squeezes his eyes shut and clenches his tiny fists, straining to
+      calm down. His head flame flickers back and forth between big and small, trembling, little
+      puffs of gray smoke escaping
+    sfx: 用力憋氣的「嗯——」、火焰忽大忽小
+    caption: 冷靜…冷靜…
+    caption_en: Calm... stay calm...
+
+  - id: s04
+    beat: trouble
+    duration: 5
+    action: 縮時：窗外光線從下午變成傍晚，阿炭坐著打瞌睡，火苗縮成穩定的小餘燼，鍋子安靜地咕嘟咕嘟。
+    camera: static wide shot of the stove and window, time-lapse
+    prompt: >-
+      Time-lapse: the window light shifts from bright afternoon to warm orange sunset. Under the
+      pot, A-Tan nods off and falls asleep, his head flame shrinking to a tiny steady dark-orange
+      ember. The pot simmers gently with small lazy bubbles
+    sfx: 時鐘滴答、輕輕的打呼、咕嘟咕嘟
+    caption: （三小時後）
+    caption_en: (3 hours later)
+
+  - id: s05
+    beat: twist
+    duration: 5
+    action: 他驚醒、掀鍋蓋，蒸氣散開，裡面是油亮的琥珀色滷肉，眼睛閃閃發光。
+    camera: close-up looking up at A-Tan from inside the pot
+    prompt: >-
+      A-Tan jolts awake and lifts the pot lid. A cloud of steam clears to reveal glossy
+      amber-brown braised pork, rich and shiny. His eyes sparkle with amazement
+    sfx: 鍋蓋「鏘」、蒸氣聲、「哇——」
+    caption: 欸？成功了？
+    caption_en: Wait... it worked?
+
+  - id: s06
+    beat: ending
+    duration: 5
+    action: 他把滷肉淋在白飯上大口吃，火苗變成愛心。
+    camera: medium shot at a tiny kitchen table
+    prompt: >-
+      At a tiny table, A-Tan spoons the glossy braised pork over a bowl of fluffy white rice and
+      takes a big happy bite, cheeks glowing. His head flame turns into a heart shape
+    sfx: 扒飯聲、滿足的哼聲
+    caption: 原來小火的秘訣是…睡著
+    caption_en: The secret to low heat... is a nap.
+
+youtube:
+  title: 一塊木炭學「小火慢滷」，結果睡著了？｜阿炭的滷肉飯
+  title_en: A hot-tempered lump of charcoal tries to cook braised pork on LOW heat
+  description: |
+    阿嬤的滷肉飯食譜只有一句話：小火，慢滷三小時。
+    可是阿炭是一塊一激動就會暴衝的木炭……
+
+    這是阿炭的第一集！你覺得下一集他該挑戰哪一道台灣小吃？留言告訴我 👇
+  description_en: |
+    Grandma's braised pork rice recipe says just one thing: low heat, three hours.
+    But A-Tan is a lump of charcoal with a very short temper...
+
+    This is A-Tan's very first episode! Which Taiwanese dish should he try next? Tell me in the comments 👇
+  tags: [阿炭, LittleFire, 滷肉飯, 台灣小吃, 美食動畫, 3D動畫, 療癒動畫, braised pork rice, lu rou fan, Taiwanese food, cooking animation, cute animation]
+  hashtags: [阿炭, 台灣小吃, 滷肉飯]
+  hashtags_en: [ATan, TaiwaneseFood, BraisedPorkRice]

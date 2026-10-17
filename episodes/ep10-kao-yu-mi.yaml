@@ -1,0 +1,91 @@
+id: ep10
+slug: kao-yu-mi
+dish: 烤玉米
+title: 玉米爆成爆米花
+title_en: The Corn Popped
+setting: night_market
+publish_at: 2026-11-14 18:00
+logline: 夜市烤玉米要慢慢刷醬慢慢烤，阿炭一聞到香味就興奮，整支玉米變成爆米花。（結局：重來一次又爆，可循環播放）
+music:
+  mood: 歡樂的鋼鼓與拍手
+  file:
+
+shots:
+  - id: s01
+    beat: hook
+    duration: 4
+    action: 特寫：阿炭在炭烤架上幫玉米刷上一層亮晶晶的醬，醬汁滋滋焦糖化。
+    camera: extreme close-up on the corn and brush
+    prompt: >-
+      Extreme close-up at a night-market grill: A-Tan turns an ear of corn over glowing coals and
+      brushes on a glossy dark soy-and-barbecue glaze. The glaze sizzles and caramelizes, tiny
+      bubbles popping on the kernels
+    sfx: 刷醬聲、滋滋聲
+    caption: 烤玉米：刷醬、翻面、刷醬、翻面…
+    caption_en: "Grilled corn: brush, turn, brush, turn..."
+
+  - id: s02
+    beat: setup
+    duration: 5
+    action: 香味飄上來，阿炭開心到跳起小舞，火苗暴衝，烤架上的玉米粒開始一顆一顆跳動。
+    camera: medium shot of A-Tan and the grill
+    prompt: >-
+      The smoky sweet aroma rises and A-Tan gets so excited he starts a little happy dance, his
+      head flame flaring tall. On the grill, the corn kernels begin to jitter and twitch one by one
+    sfx: 開心的哼歌、玉米粒跳動聲
+    caption: 好香好香好香！
+    caption_en: Smells so good!
+
+  - id: s03
+    beat: trouble
+    duration: 4
+    action: 整支玉米「砰砰砰」爆開，爆米花像煙火一樣噴滿畫面。
+    camera: close-up, the corn in A-Tan's hands
+    prompt: >-
+      The ear of corn in A-Tan's hands suddenly starts popping, kernel after kernel, and fluffy
+      white popcorn sprays out in every direction like fireworks, filling the frame
+    sfx: 連續爆米花聲、阿炭驚叫
+    caption: 我只是想烤個玉米…
+    caption_en: I just wanted to grill some corn...
+
+  - id: s04
+    beat: twist
+    duration: 5
+    action: 爆米花像下雨一樣落下，他抓一個大紙桶跑來跑去接，順手把剩下的醬淋上去。
+    camera: medium-wide shot of the stall
+    prompt: >-
+      Popcorn rains down all over the stall. A-Tan grabs a big paper bucket and dashes around
+      catching it, then drizzles the leftover caramelized soy glaze over the full bucket
+    sfx: 爆米花落下聲、跑步聲
+    caption: 沒關係，換個菜單
+    caption_en: No problem. New menu.
+
+  - id: s05
+    beat: ending
+    duration: 6
+    action: 他拿起一支新的玉米，深呼吸、火苗縮小，小心翼翼……一聞到醬香火又暴衝，玉米在他臉前爆開。
+    camera: close-up on A-Tan's face and the new corn
+    prompt: >-
+      A-Tan picks up a fresh ear of corn very carefully, takes a slow deep breath and his flame
+      shrinks small and calm. Then he catches a whiff of the glaze, his flame flares up again, and
+      the corn pops right in front of his face, covering him in popcorn
+    sfx: 深呼吸、聞、「砰！」
+    caption: 再一次…冷靜…
+    caption_en: One more try... stay calm...
+
+youtube:
+  title: 烤玉米烤到一半，阿炭太興奮整支爆開了 🍿
+  title_en: He got too excited grilling corn... and it all popped 🍿
+  description: |
+    夜市烤玉米要耐心地刷醬、翻面、再刷醬。
+    可是阿炭一聞到香味就開心到冒火……
+
+    第 10 集了！從第 1 集到現在，你最喜歡哪一集？
+  description_en: |
+    Night-market grilled corn takes patience: brush, turn, brush again.
+    But the moment A-Tan smells it, he gets fired up...
+
+    Episode 10! Which one has been your favorite so far?
+  tags: [阿炭, LittleFire, 烤玉米, 夜市, 台灣小吃, 爆米花, 美食動畫, 3D動畫, grilled corn, popcorn, Taiwanese street food, cooking animation]
+  hashtags: [阿炭, 烤玉米, 夜市美食]
+  hashtags_en: [ATan, GrilledCorn, Popcorn]

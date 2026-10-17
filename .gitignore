@@ -1,0 +1,10 @@
+# AI 生成的片段、配樂、成片都很大，不進 git
+media/
+build/
+# OAuth 憑證和 token，絕對不能上傳
+.secrets/
+
+__pycache__/
+.pytest_cache/
+.venv/
+.DS_Store
