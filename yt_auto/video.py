@@ -76,8 +76,10 @@ def assemble(parts: list[Part], out: Path, cfg: Config, portrait: bool, music: P
             args += ["-f", "lavfi", "-t", d, "-i", "anullsrc=r=48000:cl=stereo"]
         ain, n = n, n + 1
         if v["ken_burns"]:
-            frames = int(p.duration * fps)
-            zoom = f"zoompan=z='1+0.04*on/{max(frames, 1)}':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:s={w}x{h}:fps={fps},"
+            # 每邊往內收 2%（推近約 4%）。perspective 是次像素取樣；zoompan 只能整數像素裁切，畫面會一頓一頓地抖
+            k = f"(0.02*on/{max(int(p.duration * fps), 1)})"
+            zoom = (f"perspective=x0='W*{k}':y0='H*{k}':x1='W*(1-{k})':y1='H*{k}':"
+                    f"x2='W*{k}':y2='H*(1-{k})':x3='W*(1-{k})':y3='H*(1-{k})':interpolation=cubic:eval=frame,")
         else:
             zoom = ""
         filters.append(f"[{vin}:v]scale={w}:{h},{zoom}setsar=1,format=yuv420p[v{i}]")
