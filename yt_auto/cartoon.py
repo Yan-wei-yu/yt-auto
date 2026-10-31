@@ -272,6 +272,35 @@ class Painter:
                                     fc="#2B2F3A", ec=OUTLINE, lw=self.lw), 3)
             self.add(Rectangle((x - w / 2 + 3 * s, ground + 15 * s), w - 6 * s, h - 6 * s, fc=color, ec="none"), 4)
             fx, fy, R = x, ground + 12 * s + h / 2, 12 * s
+        elif shape == "chip":
+            # 晶片：方形本體＋左右兩排針腳
+            w = 44 * s
+            for side in (-1, 1):
+                for i in range(4):
+                    yy = ground + 8 * s + i * 9 * s
+                    px = x + side * (w / 2 + 3.5 * s)
+                    self.add(Rectangle((px - 3.5 * s, yy), 7 * s, 3.5 * s, fc="#B8BCC6", ec=OUTLINE, lw=self.lw * 0.6), 2)
+            self.add(FancyBboxPatch((x - w / 2, ground + 2 * s), w, w, boxstyle=f"round,pad=0,rounding_size={3 * s}", fc=color,
+                                    ec=OUTLINE, lw=self.lw), 3)
+            self.add(Rectangle((x - 16 * s, ground + 8 * s), 32 * s, 32 * s, fc="#E8ECF8", ec=OUTLINE, lw=self.lw * 0.7), 4)
+            fx, fy, R = x, ground + 24 * s, 13 * s
+        elif shape == "box":
+            # 紙箱：本體＋兩片翻開的蓋子＋膠帶
+            w, h = 48 * s, 36 * s
+            self.add(Rectangle((x - w / 2, ground), w, h, fc=color, ec=OUTLINE, lw=self.lw), 3)
+            for side in (-1, 1):
+                self.add(Polygon([(x + side * w / 2, ground + h), (x, ground + h), (x + side * 8 * s, ground + h + 9 * s),
+                                  (x + side * (w / 2 + 8 * s), ground + h + 9 * s)], fc=color, ec=OUTLINE, lw=self.lw * 0.9), 2)
+            self.add(Rectangle((x - 4 * s, ground + h - 9 * s), 8 * s, 9 * s, fc="#E9D2A8", ec="none"), 4)
+            fx, fy, R = x, ground + h / 2 - 1 * s, 13 * s
+        elif shape == "magnifier":
+            # 放大鏡（搜尋引擎）：鏡片裡放臉，握把斜靠地面
+            cy = ground + 38 * s
+            self.line([x + 13 * s, x + 25 * s], [cy - 16 * s, ground + 2 * s], OUTLINE, 7 * s, 2)
+            self.line([x + 13 * s, x + 25 * s], [cy - 16 * s, ground + 2 * s], color, 4.6 * s, 2)
+            self.add(Circle((x, cy), 22 * s, fc=color, ec=OUTLINE, lw=self.lw), 3)
+            self.add(Circle((x, cy), 17.5 * s, fc="#EAF2FF", ec=OUTLINE, lw=self.lw * 0.7), 4)
+            fx, fy, R = x, cy, 14 * s
         else:  # podium：講台（給「政府」「黨團」這種團體角色用）
             w, h = 40 * s, 36 * s
             self.add(Polygon([(x - w / 2, ground + h), (x + w / 2, ground + h), (x + w / 2 - 4 * s, ground), (x - w / 2 + 4 * s, ground)],

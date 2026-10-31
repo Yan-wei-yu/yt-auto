@@ -98,6 +98,11 @@ voice:
     IBM: I B M
     EPS: E P S
     CoreWeave: Core Weave
+    SpaceX: Space X
+    GDP: G D P
+    PCE: P C E
+    AWS: A W S
+    AMD: A M D
 
 paths:
   weeks: weeks

@@ -1,0 +1,230 @@
+id: 2026-w44
+label: 2026 第 44 週｜10/26–10/30
+title: 英特爾一天 -28.6%
+publish_at: 2026-11-01 20:00
+
+thumbnail:
+  tag: 萬聖節恐怖片
+  lines: [英特爾一天, "-28.6%"]
+  color: down
+  arrow: down
+  cast:
+    - {who: intel, mood: cry}
+    - {who: alphabet, mood: shocked}
+
+youtube:
+  title: 英特爾一天 -28.6%、Google 一天 -12.6%：萬聖節前美股先演恐怖片｜韭菜週報 10/26–10/30
+  description: |
+    這週美股（10/26–10/30）：Fed 按兵不動但有兩位委員想升息、Google 雲端營收翻倍股價卻一天跌 12.6%、英特爾財報後一天跌 28.6%、第三季 GDP 成長 3.4%……
+    用卡通帶你看完這一週。
+
+    資料來源：指數收盤與週漲跌取自新聞報導；個股週漲跌以 10/23 與 10/30 收盤價計算。
+    旁白為 AI 語音合成。
+  tags: [美股, 美股週報, 那斯達克, Fed, 華許, 利率決策, Google, 英特爾, 亞馬遜, 微軟, 費城半導體, GDP, 普發現金, 韭菜, 散戶, 投資理財]
+  hashtags: [美股, 韭菜週報, 英特爾]
+
+segments:
+  - id: s01
+    type: title
+    chapter: 開場：萬聖節恐怖片
+    headline: 美股先演萬聖節恐怖片
+    stat: {label: 英特爾 10/30 單日, value: -28.58}
+    subhead: Google 一天 -12.6%，那斯達克十月 -5.3%
+    arrow: down
+    cast:
+      - {who: intel, mood: cry}
+      - {who: alphabet, mood: shocked}
+      - {who: warsh, mood: zipped}
+    narration: >-
+      大家好，歡迎收看韭菜週報。萬聖節還沒到，美股先演了一場恐怖片：
+      Google 財報後一天跌十二點六趴，英特爾更誇張，一天跌了二十八點六趴。
+      那斯達克一週跌兩趴，整個十月跌了五點三趴。Fed 這週也開會了，我們一件一件看。
+
+  - id: s02
+    type: indices
+    chapter: 本週大盤
+    heading: 本週四大指數
+    cast:
+      - {who: nasdaq, mood: cry}
+      - {who: dow, mood: nervous}
+    narration: >-
+      先看大盤。S&P 500 一週跌零點五七趴，收在七千五百八十點，已經連跌三週；那斯達克跌兩趴；道瓊跌零點八五趴。
+      週一到週三其實都在漲，週四、週五被 Google 和英特爾拖下來，週五 S&P 500 一天跌一點八趴，是六月以來最慘的一天。
+      唯一上漲的是小型股，羅素兩千漲一點三趴。
+
+  - id: s03
+    type: topic
+    chapter: 大事一：Fed 按兵不動
+    tag: 大事 1
+    heading: Fed 不升息，但有兩位委員想升
+    bullets:
+      - 利率維持 3.75%–4.00%，投票 10 比 2
+      - 理事庫克、克里夫蘭 Fed 總裁哈瑪克主張再升一碼
+      - 市場押 12 月升息的機率約八成
+    cast:
+      - {who: warsh, mood: nervous, arms: hold, holding: {type: card, text: 利率不變}}
+    narration: >-
+      第一件，Fed。週三 Fed 決定利率不動，維持在三點七五到四趴，投票十比二。
+      投反對票的兩位，理事庫克和克里夫蘭 Fed 總裁哈瑪克，都是主張再升一碼。
+      聲明把經濟從「穩健」改成「強勁」，華許在記者會上說，升息的效果開始出現，但還沒有定論。
+      市場現在押十二月九號那次會議再升息的機率，大約八成。
+
+  - id: s04
+    type: topic
+    chapter: 大事二：Google 一天 -12.6%
+    tag: 大事 2
+    heading: Google 雲端翻倍，股價卻一天 -12.6%
+    chart: GOOGL
+    bullets:
+      - 雲端營收 307 億美元，年增 103%
+      - 這一季資本支出 514 億美元，自由現金流 -91 億
+      - 搜尋等主要業務營收略低於預期
+    arrow: down
+    cast:
+      - {who: alphabet, mood: shocked}
+    narration: >-
+      第二件，Google。週三晚上 Google 的母公司 Alphabet 公布財報，雲端營收年增一倍，來到三百零七億美元，照理說很漂亮。
+      但這一季的資本支出五百一十四億美元，自由現金流變成負九十一億；搜尋這些主要業務的營收也比預期差一點。
+      隔天股價一天跌了十二點六趴，市值少了將近五千億美元。
+      上週是 Meta，這週是 Google，市場開始問同一個問題：AI 的錢到底什麼時候賺回來？
+
+  - id: s05
+    type: topic
+    chapter: 大事三：英特爾一天 -28.6%
+    tag: 大事 3
+    heading: 英特爾財報後，一天跌 28.6%
+    chart: INTC
+    bullets:
+      - 上一季獲利比預期好，但下一季營收展望 150–160 億美元，市場預期 170 億
+      - 公司說記憶體嚴重缺貨，電腦需求被拖累
+      - 週五費城半導體指數單日 -7.4%
+    arrow: down
+    cast:
+      - {who: intel, mood: cry}
+      - {who: semis, mood: shocked}
+    narration: >-
+      第三件，英特爾。週四晚上公布財報，上一季的獲利其實比預期好，
+      但它給的下一季展望，營收一百五十到一百六十億美元，市場原本預期一百七十億；每股獲利零點二五美元，比預期低很多。
+      公司說，記憶體嚴重缺貨，電腦賣不動。週五股價一天跌了二十八點六趴，
+      整個費城半導體指數也跟著跌了七點四趴，AMD 跌將近一成一，輝達跌四點二，台積電 ADR 跌五點九趴。
+
+  - id: s06
+    type: topic
+    chapter: 大事四：經濟還很熱
+    tag: 大事 4
+    heading: 經濟還很熱，物價也還很熱
+    bullets:
+      - 第三季 GDP 年化成長 3.4%，上一季是 2.2%
+      - 九月 PCE 年增 3.6%、核心 3.1%，符合預期
+      - 十月消費者信心從 84.2 回升到 91.7
+    arrow: up
+    cast:
+      - {who: cpi, mood: angry, arms: up}
+    narration: >-
+      第四件，經濟數據。週四公布第三季 GDP，年化成長三點四趴，比上一季的二點二趴還快；
+      同一天公布九月的 PCE 物價指數，年增三點六趴，扣掉食物和能源的核心是三點一趴，都跟預期差不多。
+      週二公布的消費者信心，也從八十四點二回升到九十一點七。
+      經濟這麼熱、物價又降不下來，這就是為什麼市場覺得，Fed 十二月還要再升一次息。
+
+  - id: s07
+    type: movers
+    chapter: 本週漲跌排行
+    heading: 本週觀察名單
+    symbols: [TSLA, TXN, ORCL, MSFT, NVDA, AMZN, PLTR, GOOGL, INTC]
+    top: 9
+    cast:
+      - {who: microsoft, mood: smug}
+      - {who: amazon, mood: nervous}
+      - {who: intel, mood: cry}
+    narration: >-
+      整理一下這週的觀察名單。跌最兇的是英特爾，一週跌二十四點四趴，Google 跌十二點六，Palantir 跌六點四。
+      同樣是雲端，微軟的 Azure 成長四成八，亞馬遜的 AWS 成長三成九，但亞馬遜說明年的資本支出還會明顯增加，股價一週跌三點一趴，微軟小跌零點五。
+      漲的呢？特斯拉漲七點四趴，德州儀器漲五點七，甲骨文漲三點六。
+
+  - id: s08
+    type: concept
+    chapter: 本週時事概念股
+    name: 普發現金概念股（續集）
+    change: 最快 1/26 到帳
+    series: [0, 10000, 20000, 20000, 20000, 20000]
+    labels: [8 月宣布, 9 月喊價, 10 月攻防, 10/27 送委員會, 最快 1/26？]
+    bullets:
+      - 政府版：每人 1 萬、共 2357 億，10/27 送委員會
+      - 國民黨版：2 萬特別條例已逕付二讀，還沒三讀
+      - 預算 1/5 前通過，最快 1/26 到帳｜成交量：還是 0
+    cast:
+      - {who: gov, mood: nervous, arms: up, holding: {type: sign, text: 1 萬}}
+      - {who: kmt_caucus, mood: smug, arms: up, holding: {type: sign, text: 2 萬}}
+    narration: >-
+      好，進入本週時事概念股，以下純屬虛構，不是真的股票。
+      第一檔，上上週介紹過的普發現金概念股，出續集了。政府版每人一萬，總共兩千三百五十七億，
+      十月二十七號行政院長卓榮泰到立法院報告總預算，已經送進委員會；國民黨的兩萬版特別條例，十月十六號逕付二讀，還沒三讀。
+      如果預算明年一月五號前通過，最快一月二十六號到帳。所以這檔的成交量，到現在還是零。
+      我上次說兩萬已經先花完了，現在只好先刷卡。
+
+  - id: s09
+    type: concept
+    name: 資訊揭露概念股
+    change: 1573 筆
+    series: [10, 25, 100, 100, 15]
+    labels: [上線, 夾帶資料, 被發現, 停止服務]
+    bullets:
+      - 背景資料夾帶 1573 位候選人身分證字號
+      - 中選會：委外廠商出包、資料是亂碼
+      - 網站已停止服務修正
+    cast:
+      - {who: cec, mood: nervous}
+    narration: >-
+      第二檔：資訊揭露概念股，一樣是虛構的。財報講究資訊揭露，這週揭露得最完整的，是中選會。
+      候選人財產申報網站被發現，背景資料夾帶了全國一千五百七十三位縣市長和議員候選人的身分證字號。
+      中選會說是委外廠商出包，資料是亂碼，一般人看不懂，網站已經停下來修正。
+      一般人看不懂的東西，我很熟，我每一季都在看財報。
+
+  - id: s10
+    type: calendar
+    chapter: 下週行事曆
+    heading: 下週要看什麼（美東時間）
+    events:
+      - {date: 11/2 週一, item: 蘋果財報（盤後，預計）}
+      - {date: 11/3 週二, item: 美國期中選舉；AMD 財報（盤後，預計）}
+      - {date: 11/4 週三, item: 高通、Arm 財報（盤後，預計）}
+      - {date: 11/6 週五, item: 十月非農就業報告}
+    cast:
+      - {who: warsh, mood: zipped}
+    narration: >-
+      下週看什麼？預計週一盤後有蘋果財報，週二是美國期中選舉，盤後還有 AMD；
+      週三盤後是高通和 Arm，週五公布十月的非農就業報告。財報日期以公司公告為準。
+      另外，台灣的九合一選舉是十一月二十八號，普發現金概念股應該還會有續集。
+
+  - id: s11
+    type: outro
+    chapter: 結尾
+    headline: 下週再一起被割
+    bullets:
+      - 訂閱：每週日 20:00，一起看完一週美股
+      - 留言告訴我：這週最嚇人的是哪一檔？
+    cast:
+      - {who: intel, mood: cry}
+      - {who: alphabet, mood: nervous}
+      - {who: nasdaq, mood: nervous}
+    narration: >-
+      以上就是這週的韭菜週報。我們是散戶，不是老師，不報明牌，只陪你看懂新聞。
+      覺得有幫助就訂閱，每週日晚上八點見。留言告訴我，這個萬聖節，你覺得最嚇人的是哪一檔？
+      我們下週再一起被割，然後一起長回來。
+
+shorts:
+  - id: short1
+    segments: [s05]
+    title: 英特爾一天跌 28.6%：上一季賺得比預期多，股價卻崩了
+    description: 英特爾財報後給的下一季展望遠低於預期，公司說記憶體缺貨拖累電腦需求。旁白為 AI 語音合成。
+    publish_at: 2026-11-02 20:00
+  - id: short2
+    segments: [s09]
+    title: 「資訊揭露概念股」：揭露到連身分證字號都附上 😂
+    description: 本週時事概念股（虛構）：中選會財產申報網站背景資料夾帶 1573 位候選人身分證字號。旁白為 AI 語音合成。
+    publish_at: 2026-11-04 20:00
+  - id: short3
+    segments: [s04]
+    title: Google 雲端營收翻倍，股價卻一天跌 12.6%
+    description: Alphabet 第三季雲端營收年增 103%，但資本支出 514 億美元、自由現金流轉負。旁白為 AI 語音合成。
+    publish_at: 2026-11-06 20:00

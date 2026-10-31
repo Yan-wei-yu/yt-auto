@@ -205,7 +205,8 @@ def _barh(s: Slide, rows: list[tuple[str, float]], top: float):
     colors = [s.t.sign_color(v) for v in values]
     ax.barh(range(len(values)), values, color=colors, height=0.66)
     span = max(abs(v) for v in values) or 1
-    ax.set_xlim(min(min(values), 0) - span * 0.5, max(max(values), 0) + span * 0.5)
+    # 兩邊各留 0.75 個最大值的空間放數字標籤，負數標籤才不會壓到左邊的名稱
+    ax.set_xlim(min(min(values), 0) - span * 0.75, max(max(values), 0) + span * 0.75)
     ax.axvline(0, color=MUTED, lw=1.5)
     ax.set_yticks(range(len(values)), labels, fontsize=s.px(36), color=TEXT, fontweight="bold")
     ax.set_xticks([])
@@ -225,8 +226,14 @@ def draw_movers(s: Slide, seg: Segment):
     stocks = sorted(s.week.market["stocks"], key=lambda x: x["change_pct"], reverse=True)
     if seg.get("symbols"):
         stocks = [x for x in stocks if x["symbol"] in seg.get("symbols")]
-    rows = [(f"{x['name']} {x['symbol']}", x["change_pct"]) for x in stocks[: seg.get("top", 9)]]
+    rows = [(_stock_label(x), x["change_pct"]) for x in stocks[: seg.get("top", 9)]]
     _barh(s, rows, y - 0.03)
+
+
+def _stock_label(stock: dict) -> str:
+    """「輝達 NVDA」；名稱和代號一樣時（IBM、AMD）只寫一次。"""
+    name, symbol = stock["name"], stock["symbol"]
+    return name if name.upper() == symbol else f"{name} {symbol}"
 
 
 def _weekday(d: str) -> str:
@@ -240,7 +247,7 @@ def draw_topic(s: Slide, seg: Segment):
     if symbol:
         stock = next(x for x in s.week.market["stocks"] if x["symbol"] == symbol)
         color = s.t.sign_color(stock["change_pct"])
-        s.text(x0, y - 0.01, f"{stock['name']} {symbol}　一週 {stock['change_pct']:+.2f}%", 44, color)
+        s.text(x0, y - 0.01, f"{_stock_label(stock)}　一週 {stock['change_pct']:+.2f}%", 44, color)
         top = y - (0.08 if not s.l.portrait else 0.045)
         bottom = top - (top - y0) * (0.55 if seg.get("bullets") else 0.95)
         ax = s.axes(x0 + 0.04, bottom, x1, top)

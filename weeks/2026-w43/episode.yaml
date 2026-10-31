@@ -1,0 +1,222 @@
+id: 2026-w43
+label: 2026 第 43 週｜10/19–10/23
+title: 週四那斯達克 -2.6%
+publish_at: 2026-10-31 20:00
+
+thumbnail:
+  tag: 燒錢燒過頭
+  lines: [Meta 一週, "-9.4%"]
+  color: down
+  arrow: down
+  cast:
+    - {who: meta, mood: cry, arms: up, holding: {type: cash, text: 349 億}}
+    - {who: semis, mood: shocked}
+
+youtube:
+  title: Meta 燒錢燒到現金流轉負、週四那斯達克 -2.6%、油價衝上 116｜韭菜週報 10/19–10/23
+  description: |
+    這週美股（10/19–10/23）：Meta 一季資本支出比賺進來的現金還多、週四晶片股全面重挫、特斯拉和 SpaceX 開始評估合併、布蘭特原油衝上每桶 116 美元……
+    用卡通帶你看完這一週。這集晚了一週補上，10/26–10/30 那一集明天（11/1）晚上 8 點播出。
+
+    資料來源：指數收盤與週漲跌取自新聞報導；個股週漲跌以 10/16 與 10/23 收盤價計算。
+    旁白為 AI 語音合成。
+  tags: [美股, 美股週報, 那斯達克, Meta, 特斯拉, SpaceX, 網飛, IBM, 半導體, 費城半導體, 油價, 台股休市, 韭菜, 散戶, 投資理財]
+  hashtags: [美股, 韭菜週報, Meta]
+
+segments:
+  - id: s01
+    type: title
+    chapter: 開場：補一集被割的週
+    headline: 週四那斯達克一天重摔
+    stat: {label: 那斯達克 10/22 單日, value: -2.60}
+    subhead: 六月初以來最大的單日跌幅
+    arrow: down
+    cast:
+      - {who: meta, mood: cry}
+      - {who: semis, mood: shocked}
+      - {who: crude, mood: angry, arms: up}
+    narration: >-
+      大家好，歡迎收看韭菜週報。這集是補檔，帶你回頭看十月十九號到二十三號這一週。
+      這週大盤看起來還好，S&P 500 只小跌零點五趴，但週四那天，那斯達克一天跌了二點六趴，是六月初以來最大的單日跌幅。
+      Meta 錢花太兇、晶片設備缺貨、油價又往上衝，我們一件一件看。
+
+  - id: s02
+    type: indices
+    chapter: 本週大盤
+    heading: 本週四大指數
+    cast:
+      - {who: nasdaq, mood: nervous}
+      - {who: dow, mood: smug}
+    narration: >-
+      先看大盤。S&P 500 一週跌零點四七趴，收在七千六百二十三點；那斯達克跌零點七一趴，兩個都是連續第二週下跌。
+      道瓊反而小漲零點四一趴，已經連漲三週；小型股的羅素兩千更漲了兩趴。
+      大型科技股被賣，小型股反而比較撐得住。
+
+  - id: s03
+    type: topic
+    chapter: 大事一：週四晶片股全倒
+    tag: 大事 1
+    heading: 週四晶片股全倒：費半一天 -6.7%
+    bullets:
+      - 晶片設備大廠科林研發：下一季營收被供應鏈限制卡住
+      - 費城半導體指數 10/22 單日 -6.72%，30 檔成分股全部下跌
+      - 同一天輝達 -4.4%、那斯達克 -2.6%
+    arrow: down
+    cast:
+      - {who: semis, mood: cry}
+    narration: >-
+      第一件大事，週四的晶片股大跌。晶片設備大廠科林研發週三晚上公布財報，營收創新高，
+      但財務長說，下一季的營收本來可以更高，是被短期的供應鏈限制卡住。
+      隔天它的股價跌了大約一成，應用材料跌六趴，費城半導體指數一天跌六點七二趴，三十檔成分股全部收黑，輝達也跌了四點四趴。
+      AI 需求還在，但東西做不出來，市場一樣不買單。
+
+  - id: s04
+    type: topic
+    chapter: 大事二：Meta 花的比賺的多
+    tag: 大事 2
+    heading: Meta 一季花的錢，比賺進來的現金還多
+    chart: META
+    bullets:
+      - 營收 646 億美元、年增 26%，比預期好
+      - 資本支出 349 億美元，比營運現金流 328 億還多
+      - 10/22 股價 -7%，一週 -9.4%
+    arrow: down
+    cast:
+      - {who: meta, mood: cry, arms: up, holding: {type: cash, text: 349 億}}
+    narration: >-
+      第二件，Meta。週三公布的財報，營收六百四十六億美元，年增兩成六，比預期還好。
+      問題在花錢：這一季的資本支出三百四十九億美元，比本業賺進來的現金三百二十八億還多，自由現金流變成負的，有報導說是它上市以來第一次。
+      Meta 還宣布要新增一種沒有投票權的股票。隔天股價跌了將近七趴，一週跌九點四趴。
+
+  - id: s05
+    type: topic
+    chapter: 大事三：特斯拉和 SpaceX 要合併？
+    tag: 大事 3
+    heading: 特斯拉和 SpaceX，開始評估合併
+    chart: TSLA
+    bullets:
+      - 兩家董事會都成立特別委員會評估合併
+      - 馬斯克不參與討論，條件還沒談定
+      - 特斯拉第三季營收和去年差不多
+    arrow: up
+    cast:
+      - {who: musk, mood: smug, arms: shrug, say: 是個好主意, quote: true}
+    narration: >-
+      第三件，馬斯克。週二 SpaceX 公布財報時，馬斯克證實，SpaceX 和特斯拉都成立了特別委員會，評估兩家公司合併。
+      他說自己有利益衝突，不參加討論，條件也還沒談定，但被問到合併是不是好主意，他說是。
+      隔天特斯拉自己的財報，營收兩百八十億美元，跟去年差不多，獲利比預期好一點。特斯拉這週股價漲了四點九趴。
+
+  - id: s06
+    type: topic
+    chapter: 大事四：油價衝上 116 美元
+    tag: 大事 4
+    heading: 油價衝上 116 美元，物價壓力又來了
+    bullets:
+      - 布蘭特原油 116.72 美元，四月底以來最高
+      - 十月 PMI：企業賣價漲幅四年多來最快
+      - 密大消費者信心 48，通膨預期五月以來最高
+    arrow: up
+    cast:
+      - {who: crude, mood: angry, arms: up}
+      - {who: cpi, mood: angry}
+    narration: >-
+      第四件，油價。中東局勢緊張，週五布蘭特原油收在每桶一百一十六點七二美元，是四月底以來最高。
+      同一天公布的美國十月採購經理人指數，企業的賣價漲幅是四年多來最快；密西根大學的消費者信心只有四十八，民眾預期的通膨，升到五月以來最高。
+      油價一漲，通膨就更難降下來，市場也更擔心 Fed 還要再升息。週五道瓊一天跌了六百五十點。
+
+  - id: s07
+    type: movers
+    chapter: 本週漲跌排行
+    heading: 本週觀察名單
+    symbols: [IBM, PLTR, TSLA, TXN, GOOGL, NFLX, META, CRWV]
+    top: 8
+    cast:
+      - {who: netflix, mood: cry}
+      - {who: coreweave, mood: cry}
+    narration: >-
+      整理一下這週的觀察名單。漲最多的是 IBM，一週漲九點二趴，財報營收和獲利都比預期好；
+      Palantir 漲五點八，特斯拉漲四點九；德州儀器給的下一季展望比預期高，漲三趴。
+      跌最兇的是 CoreWeave，又跌了十一點七趴；Meta 跌九點四；網飛跌六點六，因為它把今年的廣告營收目標，從大約三十億美元下修到二十七億，股價跌到二零二四年八月以來最低。
+      Google 也跌了六趴。
+
+  - id: s08
+    type: concept
+    chapter: 本週時事概念股
+    name: 台股休市概念股
+    change: 連休 4 天
+    series: [20, 12, 4, 60, 100]
+    labels: [週一, 週四, 颱風休市, 光復節]
+    bullets:
+      - 薔琵颱風：10/23 台股休市，10/24 13 縣市停班停課
+      - 加上光復節連假，台股連休四天，10/27 才開盤
+    cast:
+      - {who: twse, mood: laugh, arms: up}
+    narration: >-
+      好，進入本週時事概念股，以下純屬虛構，不是真的股票。
+      第一檔：台股休市概念股。薔琵颱風來襲，週五台北股匯市休市，週六又有十三個縣市停班停課，再加上光復節連假，台股一口氣連休四天，二十七號才開盤。
+      這檔的邏輯很簡單：沒開盤，韭菜就不會被割，所以休市越久它漲越多。也希望颱風期間受影響的朋友都平安。
+
+  - id: s09
+    type: concept
+    name: AI 燒錢指數概念股
+    change: 花的比賺的多
+    series: [30, 45, 60, 78, 100]
+    labels: [去年, 今年初, 七月財報, 十月財報]
+    bullets:
+      - Meta 這季：花 349 億美元，本業現金只進來 328 億
+      - 指數上漲代表支出增加，不代表獲利增加
+    cast:
+      - {who: meta, mood: nervous, arms: hold, holding: {type: cash, text: 349 億}}
+      - {who: semis, mood: shocked}
+    narration: >-
+      第二檔：AI 燒錢指數概念股，一樣是虛構的。這檔只追蹤一件事：大公司花在 AI 的錢，什麼時候才會賺回來？
+      這週 Meta 一季花了三百四十九億美元蓋資料中心，本業進來的現金只有三百二十八億，花的比賺的還多。
+      淘金熱的老話說，賣鏟子的最賺；這週的問題是，鏟子還做不出來。這檔今年一路漲，漲的是支出，不是獲利。
+
+  - id: s10
+    type: calendar
+    chapter: 下一週：結果明天揭曉
+    heading: 下一週發生了什麼？（明天播出）
+    events:
+      - {date: 10/27–28, item: Fed 利率決策}
+      - {date: 10/28 週三, item: 微軟、Google 財報}
+      - {date: 10/29 週四, item: 亞馬遜、英特爾財報；GDP、PCE 物價}
+      - {date: 10/30 週五, item: 十月最後一個交易日}
+    cast:
+      - {who: warsh, mood: zipped}
+    narration: >-
+      下一週呢？十月二十七、二十八號 Fed 開會，二十八號微軟和 Google 公布財報，二十九號輪到亞馬遜和英特爾，還有第三季 GDP 和物價數據。
+      因為這集晚了一週，結果已經出來了，而且有點刺激。明天晚上八點，十月二十六到三十號那一集，一次告訴你。
+
+  - id: s11
+    type: outro
+    chapter: 結尾
+    headline: 明天見，一起長回來
+    bullets:
+      - 訂閱：每週日 20:00，一起看完一週美股
+      - 留言告訴我：台股休市那四天，你在做什麼？
+    cast:
+      - {who: twse, mood: happy}
+      - {who: meta, mood: nervous}
+      - {who: semis, mood: cry}
+    narration: >-
+      以上就是這集補檔的韭菜週報。我們是散戶，不是老師，不報明牌，只陪你看懂新聞。
+      覺得有幫助就訂閱，每週日晚上八點見，這週例外，明天晚上八點就有下一集。
+      留言告訴我，台股休市那四天，你在做什麼？我們明天見。
+
+shorts:
+  - id: short1
+    segments: [s04]
+    title: Meta 一季花 349 億美元，比賺進來的現金還多 😱
+    description: Meta 第三季資本支出 349 億美元、營運現金流 328 億，自由現金流轉負，隔天股價跌將近 7%。旁白為 AI 語音合成。
+    publish_at: 2026-11-03 20:00
+  - id: short2
+    segments: [s08]
+    title: 台股連休 4 天，是韭菜今年最安全的 4 天 😂
+    description: 本週時事概念股（虛構）：颱風休市加光復節連假，台股連休四天。旁白為 AI 語音合成。
+    publish_at: 2026-11-05 20:00
+  - id: short3
+    segments: [s05]
+    title: 特斯拉和 SpaceX 要合併？馬斯克：是個好主意
+    description: SpaceX 和特斯拉都成立特別委員會評估合併，條件還沒談定。旁白為 AI 語音合成。
+    publish_at: 2026-11-07 20:00

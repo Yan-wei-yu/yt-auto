@@ -7,6 +7,7 @@
 #   outfit.type：suit（西裝，可設 tie 顏色）/ leather（皮衣）/ tshirt
 # 物件（kind: object）
 #   shape：server（伺服器）/ gas_pump（加油機）/ barrel（油桶）/ bank（銀行）/ podium（講台，給團體角色）/ screen（報價螢幕，給指數）
+#          chip（晶片）/ box（紙箱）/ magnifier（放大鏡，給搜尋引擎）
 #
 # 原則：辨識靠名牌和招牌穿著，不誇大長相；不畫寫實臉孔、不用照片。
 
@@ -103,3 +104,73 @@ dow:
   kind: object
   shape: screen
   color: "#C9A227"
+
+intel:
+  name: 英特爾
+  role: 晶片股
+  kind: object
+  shape: chip
+  color: "#0068B5"
+
+alphabet:
+  name: Google
+  role: 母公司 Alphabet
+  kind: object
+  shape: magnifier
+  color: "#4285F4"
+
+amazon:
+  name: 亞馬遜
+  role: 電商＋AWS 雲端
+  kind: object
+  shape: box
+  color: "#C8955A"
+
+microsoft:
+  name: 微軟
+  role: Azure 雲端
+  kind: object
+  shape: screen
+  color: "#00A4EF"
+
+crude:
+  name: 油價
+  role: 西德州原油
+  kind: object
+  shape: barrel
+  color: "#6B4F3A"
+
+cec:
+  name: 中選會
+  role: ""
+  kind: object
+  shape: podium
+  color: "#8A94A6"
+
+meta:
+  name: Meta
+  role: 臉書、IG 母公司
+  kind: object
+  shape: screen
+  color: "#0866FF"
+
+netflix:
+  name: 網飛
+  role: 串流影音
+  kind: object
+  shape: screen
+  color: "#E50914"
+
+semis:
+  name: 半導體
+  role: 費城半導體指數
+  kind: object
+  shape: chip
+  color: "#3D4452"
+
+twse:
+  name: 台股
+  role: 加權指數
+  kind: object
+  shape: screen
+  color: "#C0392B"
