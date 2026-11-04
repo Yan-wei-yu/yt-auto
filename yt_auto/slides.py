@@ -47,11 +47,12 @@ class Layout:
     content: tuple[float, float, float, float]  # x0, y0, x1, y1（圖的比例座標）
     stage: tuple[float, float, float, float]  # 卡通舞台
     scale: float  # 字級倍率
+    floor: float = 0.0  # 內容文字最低只能到這裡，下面留給字幕（兩行）
 
 
 # Shorts：上半部放內容，中間留給字幕，下面是卡通舞台；右側和底部會被 YouTube 的按鈕和標題蓋住
-LANDSCAPE = dict(content=(0.05, 0.20, 0.61, 0.86), stage=(0.63, 0.10, 0.98, 0.89), scale=1.0)
-PORTRAIT = dict(content=(0.07, 0.50, 0.93, 0.92), stage=(0.04, 0.07, 0.96, 0.385), scale=1.2)
+LANDSCAPE = dict(content=(0.05, 0.20, 0.61, 0.86), stage=(0.63, 0.10, 0.98, 0.89), scale=1.0, floor=0.17)
+PORTRAIT = dict(content=(0.07, 0.50, 0.93, 0.92), stage=(0.04, 0.07, 0.96, 0.385), scale=1.2, floor=0.49)
 
 
 def setup_fonts(cfg: Config) -> None:
@@ -114,6 +115,7 @@ def fit(text: str, size: float, max_units_at) -> tuple[list[str], float]:
 class Slide:
     def __init__(self, layout: Layout, theme: Theme, week: Week):
         self.l, self.t, self.week = layout, theme, week
+        self.lowest = 1.0  # 內容文字最低到哪裡（圖的比例座標），超出 content 會跟字幕重疊
         self.fig = plt.figure(figsize=(layout.width / 100, layout.height / 100), dpi=100)
         self.fig.patch.set_facecolor(NAVY)
 
@@ -126,8 +128,11 @@ class Slide:
         return self.fig.text(x, y, s, fontsize=self.px(size), color=color, fontweight=weight, ha=ha, va=va,
                              path_effects=effects, **kw)
 
+    def step(self, size: float, gap: float = 1.35) -> float:
+        return size * gap * self.l.scale / self.l.height * (self.l.height if not self.l.portrait else self.l.width) / 1080
+
     def lines(self, x, y, lines, size, color=TEXT, gap=1.35, **kw) -> float:
-        step = size * gap * self.l.scale / self.l.height * (self.l.height if not self.l.portrait else self.l.width) / 1080
+        step = self.step(size, gap)
         for i, line in enumerate(lines):
             self.text(x, y - i * step, line, size, color, **kw)
         return y - len(lines) * step
@@ -174,6 +179,30 @@ def _heading(s: Slide, title: str, size: float = 66, tag: str | None = None, rig
     return s.lines(x0, y, lines, size)
 
 
+def _bullets_height(s: Slide, items: list[str], size: float) -> float:
+    x0, _, x1, _ = s.l.content
+    rows = sum(len(wrap(item, s.max_units(size, x0 + 0.03, x1))) for item in items)
+    return rows * s.step(size) + 0.015 * (len(items) - 1)
+
+
+def _fit_bullets(s: Slide, items: list[str], room: float, size: float) -> float:
+    """重點放不進 room（圖的高度比例）就把字縮小一點，最多縮到原本的八成。"""
+    for _ in range(3):
+        if _bullets_height(s, items, size) <= room:
+            break
+        size *= 0.93
+    return size
+
+
+def _bullet_area(s: Slide, items: list[str] | None, top: float, size: float, nominal: float, gap: float) -> tuple[float, float]:
+    """圖表下面接重點時，算出圖表的底和重點字級：重點不能壓到字幕，圖表至少留可用高度的 35%。"""
+    if not items:
+        return nominal, size
+    room = top - s.l.floor
+    size = _fit_bullets(s, items, room * 0.65 - gap, size)
+    return max(nominal, s.l.floor + _bullets_height(s, items, size) + gap), size
+
+
 def _bullets(s: Slide, items: list[str], y: float, size: float = 42) -> float:
     x0, _, x1, _ = s.l.content
     for item in items:
@@ -181,6 +210,7 @@ def _bullets(s: Slide, items: list[str], y: float, size: float = 42) -> float:
         s.text(x0, y, "•", size, GOLD)
         y = s.lines(x0 + (0.025 if not s.l.portrait else 0.045), y, wrapped, size, weight="normal")
         y -= 0.015
+    s.lowest = min(s.lowest, y + 0.015)
     return y
 
 
@@ -249,7 +279,9 @@ def draw_topic(s: Slide, seg: Segment):
         color = s.t.sign_color(stock["change_pct"])
         s.text(x0, y - 0.01, f"{_stock_label(stock)}　一週 {stock['change_pct']:+.2f}%", 44, color)
         top = y - (0.08 if not s.l.portrait else 0.045)
-        bottom = top - (top - y0) * (0.55 if seg.get("bullets") else 0.95)
+        gap = 0.07 if not s.l.portrait else 0.035
+        nominal = top - (top - y0) * (0.55 if seg.get("bullets") else 0.95)
+        bottom, size = _bullet_area(s, seg.get("bullets"), top, 38, nominal, gap)
         ax = s.axes(x0 + 0.04, bottom, x1, top)
         xs = ["上週五"] + [_weekday(d) for d, _ in stock["closes"]]
         ys = [stock["base_close"]] + [c for _, c in stock["closes"]]
@@ -259,9 +291,11 @@ def draw_topic(s: Slide, seg: Segment):
         ax.set_xticks(range(len(xs)), xs, fontsize=s.px(28), color=MUTED)
         ax.tick_params(axis="y", labelsize=s.px(24))
         ax.grid(axis="y", color="#2A3550", lw=1)
-        y = bottom - (0.07 if not s.l.portrait else 0.035)
+        y = bottom - gap
+    elif seg.get("bullets"):
+        size = _fit_bullets(s, seg.get("bullets"), y - s.l.floor, 42)
     if seg.get("bullets"):
-        _bullets(s, seg.get("bullets"), y, 38 if symbol else 42)
+        _bullets(s, seg.get("bullets"), y, size)
 
 
 def draw_concept(s: Slide, seg: Segment):
@@ -269,7 +303,8 @@ def draw_concept(s: Slide, seg: Segment):
     series = [float(v) for v in seg.get("series")]
     color = s.t.sign_color(series[-1] - series[0])
     y = _heading(s, seg.get("name", ""), size=70, tag="本週時事概念股（虛構）", right=(seg.get("change", ""), color))
-    bottom = y0 + (y - y0) * (0.34 if seg.get("bullets") else 0.0)
+    gap = 0.07 if not s.l.portrait else 0.035
+    bottom, size = _bullet_area(s, seg.get("bullets"), y - 0.03, 40, y0 + (y - y0) * (0.34 if seg.get("bullets") else 0.0), gap)
     ax = s.axes(x0, bottom, x1, y - 0.03)
     for i in range(1, len(series)):
         o, c = series[i - 1], series[i]
@@ -286,7 +321,7 @@ def draw_concept(s: Slide, seg: Segment):
             fontsize=s.px(28), color="#FF8A8A", fontweight="bold",
             bbox=dict(boxstyle="round,pad=0.35", fc="none", ec="#FF8A8A", lw=3))
     if seg.get("bullets"):
-        _bullets(s, seg.get("bullets"), bottom - (0.07 if not s.l.portrait else 0.035), 40)
+        _bullets(s, seg.get("bullets"), bottom - gap, size)
 
 
 def draw_calendar(s: Slide, seg: Segment):
@@ -330,6 +365,8 @@ def render_segment(seg: Segment, week: Week, cfg: Config, out: Path, portrait: b
     s = Slide(layout(cfg, portrait), theme(cfg), week)
     s.header()
     DRAW[seg.type](s, seg)
+    if s.lowest < s.l.floor - 0.005:
+        print(f"  ⚠ {seg.id}{'（Shorts）' if portrait else ''}：重點文字超出版面，會跟字幕重疊，請縮短或減少重點")
     s.stage(seg.get("cast", []), seg.get("arrow"))
     s.save(out)
     return out
