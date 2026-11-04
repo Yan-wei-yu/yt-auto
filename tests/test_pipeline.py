@@ -1,3 +1,4 @@
+import re
 import shutil
 import subprocess
 from datetime import date, datetime, timedelta, timezone
@@ -9,7 +10,7 @@ import yaml
 from yt_auto import metadata, video, youtube
 from yt_auto.config import ROOT, load_config
 from yt_auto.market import week_dates
-from yt_auto.subtitles import ass_escape, ass_time, chunk, timed_cues
+from yt_auto.subtitles import ass_escape, ass_time, clauses, timed_cues
 from yt_auto.week import load_week, load_weeks, tags_length, validate
 
 has_ffmpeg = shutil.which("ffmpeg") is not None
@@ -54,11 +55,36 @@ def test_validation_rules():
 def test_subtitles():
     assert ass_time(65.5) == "0:01:05.50"
     assert ass_escape("a{b}\nc") == "a(b)\\Nc"
-    lines = chunk("大家好，我是阿韭。這週美股，那斯達克一週跌了四點四八趴，是六月以來最慘的一週。", 14)
-    assert all(len(x) <= 14 for x in lines)
-    assert not any(x.endswith(("，", "。")) for x in lines)
-    cues = timed_cues("一二三，四五六七八九。", 10, 6)
-    assert cues[0].start == 10 and cues[-1].end == pytest.approx(16)
+    text = "大家好，我是阿韭。他只說了一句：「我不預判會議。」這週美股 S&P 500 一週跌了一點九五趴，是六月以來最慘的一週。"
+    parts = clauses(text)
+    # 標點和右引號跟著前一個子句；全部接起來就是原文
+    assert parts[:4] == ["大家好，", "我是阿韭。", "他只說了一句：", "「我不預判會議。」"]
+    assert "".join(parts).replace(" ", "") == text.replace(" ", "")
+    cues = timed_cues(text, 0, 10, max_chars=14)
+    bare = lambda x: re.sub(r"[\s，。：]", "", x)  # noqa: E731
+    flat = bare(text)
+    for c in cues:
+        lines = c.text.split("\n")
+        assert len(lines) <= 2 and all(len(x) <= 14 for x in lines)
+        assert not c.text.endswith(("，", "。"))
+        # 每則字幕都是原文連續的一段（不會跳字、不會重複）
+        assert bare(c.text) in flat
+    # 英文和數字不會被拆開
+    assert all("S&P" in c.text or "S&" not in c.text for c in cues)
+    assert all(not c.text.startswith("P 500") for c in cues)
+
+
+def test_subtitle_timing_follows_marks():
+    text = "先看大盤。S&P 500 一週跌零點五七趴，收在七千五百八十點，已經連跌三週。"
+    marks = [0.0, 1.1, 3.7, 5.6, 7.3]
+    cues = timed_cues(text, 10, 7.3, max_chars=22, marks=marks)
+    # 有 Google 的時間標記就照標記：第一則在 1.1 秒結束，最後一則在 7.3 秒結束
+    assert cues[0].text == "先看大盤" and cues[0].end == pytest.approx(11.1)
+    assert cues[1].start == pytest.approx(11.1) and cues[-1].end == pytest.approx(17.3)
+    # 沒有標記就估算，但一樣從段落開頭排到結尾
+    est = timed_cues(text, 10, 7.3, max_chars=22)
+    assert est[0].start == 10 and est[-1].end == pytest.approx(17.3)
+    assert [c.text for c in est] == [c.text for c in cues]
 
 
 def test_speech_text():

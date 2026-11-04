@@ -84,7 +84,7 @@ def assemble(parts: list[Part], out: Path, cfg: Config, portrait: bool, music: P
             zoom = ""
         filters.append(f"[{vin}:v]scale={w}:{h},{zoom}setsar=1,format=yuv420p[v{i}]")
         filters.append(f"[{ain}:a]{AUDIO_FMT},apad,atrim=duration={d},asetpts=PTS-STARTPTS[a{i}]")
-        cues += timed_cues(p.seg.narration, t, p.speech, max_chars=14 if portrait else 22)
+        cues += timed_cues(p.seg.narration, t, p.speech, max_chars=v["short_subtitle_chars" if portrait else "subtitle_chars"], marks=p.voice.marks)
         if p.seg.chapter:
             chapters.append((p.seg.chapter, t))
         t += p.duration

@@ -18,13 +18,16 @@ import urllib.request
 import wave
 from dataclasses import dataclass
 from pathlib import Path
+from xml.sax.saxutils import escape
 
 from .config import Config
+from .subtitles import clauses
 from .week import Segment, Week
 
 AUDIO_EXTS = (".wav", ".mp3", ".m4a")
 KOKORO_URL = "https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/kokoro-multi-lang-v1_1.tar.bz2"
 GOOGLE_TTS = "https://texttospeech.googleapis.com/v1"
+GOOGLE_TTS_BETA = "https://texttospeech.googleapis.com/v1beta1"
 
 CJK = "\u4e00-\u9fff，。！？、；：「」（）"
 _engines: dict[str, object] = {}
@@ -34,6 +37,8 @@ _engines: dict[str, object] = {}
 class Voice:
     path: Path | None
     source: str  # recording / tts / silent
+    # 每個子句開始的秒數（最後多一個結尾），字幕用；只有 Google 配音有
+    marks: list[float] | None = None
 
 
 def recording(week: Week, seg: Segment) -> Path | None:
@@ -94,11 +99,11 @@ def _kokoro(cfg: Config):
     return _engines["kokoro"]
 
 
-def _synth_kokoro(text: str, out: Path, cfg: Config) -> None:
+def _synth_kokoro(parts: list[str], out: Path, cfg: Config) -> None:
     import numpy as np
 
     k = cfg.voice["kokoro"]
-    audio = _kokoro(cfg).generate(text, sid=int(k["speaker"]), speed=float(k["speed"]))
+    audio = _kokoro(cfg).generate("".join(parts), sid=int(k["speaker"]), speed=float(k["speed"]))
     pcm = (np.clip(np.asarray(audio.samples), -1, 1) * 32767).astype("<i2")
     with wave.open(str(out), "wb") as w:
         w.setnchannels(1)
@@ -107,10 +112,10 @@ def _synth_kokoro(text: str, out: Path, cfg: Config) -> None:
         w.writeframes(pcm.tobytes())
 
 
-def _synth_edge(text: str, out: Path, cfg: Config) -> None:
+def _synth_edge(parts: list[str], out: Path, cfg: Config) -> None:
     import edge_tts
 
-    asyncio.run(edge_tts.Communicate(text, cfg.voice["tts_voice"], rate=cfg.voice["tts_rate"]).save(str(out)))
+    asyncio.run(edge_tts.Communicate("".join(parts), cfg.voice["tts_voice"], rate=cfg.voice["tts_rate"]).save(str(out)))
 
 
 def google_key(cfg: Config) -> str | None:
@@ -122,11 +127,11 @@ def google_key(cfg: Config) -> str | None:
     return key or None
 
 
-def _google(path: str, cfg: Config, body: dict | None = None) -> dict:
+def _google(path: str, cfg: Config, body: dict | None = None, api: str = GOOGLE_TTS) -> dict:
     key = google_key(cfg)
     if not key:
         raise RuntimeError("沒有 Google TTS 金鑰（.secrets/google_tts_key.txt）")
-    req = urllib.request.Request(f"{GOOGLE_TTS}/{path}{'&' if '?' in path else '?'}key={key}",
+    req = urllib.request.Request(f"{api}/{path}{'&' if '?' in path else '?'}key={key}",
                                  data=json.dumps(body).encode() if body else None,
                                  headers={"Content-Type": "application/json"})
     try:
@@ -141,15 +146,21 @@ def google_voices(cfg: Config, language: str = "cmn-TW") -> list[dict]:
     return _google(f"voices?languageCode={language}", cfg).get("voices", [])
 
 
-def _synth_google(text: str, out: Path, cfg: Config) -> None:
+def _synth_google(parts: list[str], out: Path, cfg: Config) -> list[float]:
+    """每個子句前放一個 SSML 時間標記，Google 會回傳每個標記在音檔裡的秒數（v1beta1 才有）。"""
     g = cfg.voice["google"]
+    ssml = "".join(f'<mark name="{i}"/>{escape(p)}' for i, p in enumerate(parts))
     body = {
-        "input": {"text": text},
+        "input": {"ssml": f'<speak>{ssml}<mark name="{len(parts)}"/></speak>'},
         "voice": {"languageCode": g.get("language", "cmn-TW"), "name": g["voice"]},
         "audioConfig": {"audioEncoding": "LINEAR16", "sampleRateHertz": 24000, "speakingRate": g.get("speed", 1.0)},
+        "enableTimePointing": ["SSML_MARK"],
     }
+    res = _google("text:synthesize", cfg, body, api=GOOGLE_TTS_BETA)
     # LINEAR16 回傳的內容本身就是含檔頭的 WAV
-    out.write_bytes(base64.b64decode(_google("text:synthesize", cfg, body)["audioContent"]))
+    out.write_bytes(base64.b64decode(res["audioContent"]))
+    times = {int(t["markName"]): float(t["timeSeconds"]) for t in res.get("timepoints", [])}
+    return [times.get(i) for i in range(len(parts) + 1)]
 
 
 SYNTH = {"google": _synth_google, "kokoro": _synth_kokoro, "edge": _synth_edge}
@@ -163,26 +174,32 @@ def _available(engine: str, cfg: Config) -> bool:
     return True
 
 
-def _tts(text: str, out_base: Path, cfg: Config) -> Path | None:
+def _tts(parts: list[str], out_base: Path, cfg: Config) -> tuple[Path, list[float] | None] | None:
     """依序試 voice.engines，第一個成功的就用；結果用文字＋設定的雜湊快取。"""
     engines = cfg.voice.get("engines") or [cfg.voice.get("engine", "kokoro")]
     for engine in engines:
         if not _available(engine, cfg):
             continue
         out = out_base.with_suffix(".mp3" if engine == "edge" else ".wav")
+        marks_file = out.with_suffix(".marks.json")
         settings = cfg.voice.get(engine, (cfg.voice.get("tts_voice"), cfg.voice.get("tts_rate")))
         stamp = out.with_suffix(".txt")
-        key = hashlib.sha1(f"{engine}|{settings}|{text}".encode()).hexdigest()
+        key = hashlib.sha1(f"{engine}|{settings}|{'|'.join(parts)}".encode()).hexdigest()
         if out.exists() and stamp.exists() and stamp.read_text() == key:
-            return out
+            marks = json.loads(marks_file.read_text()) if marks_file.exists() else None
+            return out, marks
         out.parent.mkdir(parents=True, exist_ok=True)
         try:
-            SYNTH[engine](text, out, cfg)
+            marks = SYNTH[engine](parts, out, cfg)
         except Exception as exc:  # 沒裝套件、沒網路、金鑰錯誤時，換下一個引擎
             print(f"  ⚠ {engine} 配音失敗（{exc}），改用下一個")
             continue
+        if marks:
+            marks_file.write_text(json.dumps(marks))
+        else:
+            marks_file.unlink(missing_ok=True)
         stamp.write_text(key)
-        return out
+        return out, marks
     return None
 
 
@@ -191,7 +208,9 @@ def voice_for(week: Week, seg: Segment, cfg: Config, use_tts: bool = True) -> Vo
     if rec:
         return Voice(rec, "recording")
     if use_tts:
-        out = _tts(speech_text(seg.narration, cfg), cfg.path("build") / week.id / "voice" / seg.id, cfg)
-        if out:
-            return Voice(out, "tts")
+        # 照字幕的子句切法配音，時間標記才對得上字幕
+        parts = [speech_text(c, cfg) for c in clauses(seg.narration)]
+        result = _tts(parts, cfg.path("build") / week.id / "voice" / seg.id, cfg)
+        if result:
+            return Voice(result[0], "tts", result[1])
     return Voice(None, "silent")

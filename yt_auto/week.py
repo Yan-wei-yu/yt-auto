@@ -12,6 +12,7 @@ import yaml
 
 from .cartoon import ARMS, HOLDING, MOODS, load_cast
 from .config import Config
+from .subtitles import clauses, display
 
 SEGMENT_TYPES = {"title", "indices", "topic", "movers", "concept", "calendar", "outro"}
 SHORTS_MAX_SECONDS = 180
@@ -168,6 +169,14 @@ def validate(week: Week, cfg: Config, descriptions: list[str]) -> tuple[list[str
             if phrase.lower() in lowered:
                 warnings.append(f"{s.id}: 旁白出現「{phrase}」，確認不是在推薦買賣")
 
+    # 字幕一則一個子句：沒有標點的長句在字幕上只能硬換行，寫稿時就加逗號
+    in_shorts = {i for sh in week.shorts for i in sh.segments}
+    for s in week.segments:
+        limit = cfg.video.get("short_subtitle_chars" if s.id in in_shorts else "subtitle_chars", 14 if s.id in in_shorts else 22)
+        for c in clauses(s.narration):
+            if len(display(c)) > limit:
+                where = "Shorts " if s.id in in_shorts else ""
+                warnings.append(f"{s.id}: 這句 {len(display(c))} 字，{where}字幕一行放不下（{limit} 字），建議加逗號：{display(c)}")
     for sh in week.shorts:
         for seg_id in sh.segments:
             if seg_id not in ids:

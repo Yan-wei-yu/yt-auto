@@ -65,6 +65,9 @@ video:
   subtitle_font: jf-openhuninn-2.1
   subtitle_size: 54
   short_subtitle_size: 64
+  # 字幕每行最多幾個字（長片／Shorts）。旁白一個子句（兩個標點之間）超過就得換兩行，validate 會提醒
+  subtitle_chars: 22
+  short_subtitle_chars: 14
 
 voice:
   # 優先順序：你自己的錄音 weeks/<週>/voice/<段落id>.wav|mp3|m4a → AI 配音 → 靜音（只估長度）
