@@ -1,0 +1,237 @@
+id: 2026-w45
+label: 2026 第 45 週｜11/2–11/6
+title: 選後 AI 股大崩
+publish_at: 2026-11-08 20:00
+
+thumbnail:
+  tag: 選後大崩
+  lines: [台股一週, "-12.2%"]
+  color: down
+  arrow: down
+  cast:
+    - {who: twse, mood: cry}
+    - {who: semis, mood: shocked}
+
+youtube:
+  title: 選後 AI 股大崩：那斯達克一天 -5.5%、台股一週 -12%｜韭菜週報 11/2–11/6
+  description: |
+    這週美股（11/2–11/6）：期中選舉民主黨拿下參眾兩院、週四晶片股大崩盤（費半一天 -12.25%）、台股一週跌 12%、國安基金第 10 度護盤、十月就業報告大超預期……
+    用卡通帶你看完這一週。
+
+    資料來源：指數收盤與週漲跌取自新聞報導；個股週漲跌以 10/30 與 11/6 收盤價計算。
+    旁白為 AI 語音合成。
+  tags: [美股, 美股週報, 那斯達克, 期中選舉, 費城半導體, 美光, 輝達, AMD, 台股, 台積電, 國安基金, 就業報告, 飄帶, 韭菜, 散戶, 投資理財]
+  hashtags: [美股, 韭菜週報, 台股]
+
+# 寫旁白的規則：每個子句（兩個標點之間）長片不超過 22 字，Shorts 用到的段落不超過 14 字，
+# 字幕才會一句一則、一行放得下。python -m yt_auto validate 會檢查。
+segments:
+  - id: s01
+    type: title
+    chapter: 開場：選完就崩
+    headline: 選完國會，AI 股先崩
+    stat: {label: 那斯達克 11/5 單日, value: -5.52}
+    subhead: 費城半導體一天 -12.25%，台股一週 -12.2%
+    arrow: down
+    cast:
+      - {who: dem, mood: laugh, arms: up}
+      - {who: semis, mood: cry}
+      - {who: twse, mood: cry}
+    narration: >-
+      大家好，歡迎收看韭菜週報。這週美國期中選舉，民主黨拿下國會兩院。
+      選完隔天股市大漲，再隔一天，AI 晶片股全面崩盤，那斯達克一天跌了五點五趴。
+      台股也跟著重摔，一週跌了一成二，國安基金宣布進場。我們一件一件看。
+
+  - id: s02
+    type: indices
+    chapter: 本週大盤
+    heading: 本週四大指數
+    cast:
+      - {who: nasdaq, mood: cry}
+      - {who: dow, mood: nervous}
+    narration: >-
+      先看大盤。S&P 500 一週跌二點六八趴，收在七千三百七十六點；
+      那斯達克跌三點三七趴；道瓊跌零點九四趴；小型股的羅素兩千，跌二點零五趴。
+      週三選後大漲，道瓊一天漲了一千五百多點；週四卻反過來，道瓊一天跌了一千八百多點。
+
+  - id: s03
+    type: topic
+    chapter: 大事一：期中選舉
+    tag: 大事 1
+    heading: 期中選舉：民主黨拿下參眾兩院
+    bullets:
+      - 參議院：民主黨翻轉堪薩斯、德州、俄亥俄等州
+      - 眾議院：民主黨大勝，部分選區還在計票
+      - 週三道瓊 +3%，週四全面反轉
+    cast:
+      - {who: dem, mood: laugh, arms: up}
+      - {who: gop, mood: shocked}
+    narration: >-
+      第一件大事，美國期中選舉。十一月三號投票，民主黨同時拿下參議院和眾議院的多數。
+      參議院翻轉了堪薩斯、德州、俄亥俄等州；眾議院民主黨大勝，有些選區到週五還在計票。
+      川普在選後受訪時說，他有點意外。市場第一天的反應是大漲，週三道瓊漲了三趴；
+      但是隔天，故事就變了。
+
+  - id: s04
+    type: topic
+    chapter: 大事二：週四晶片股大崩盤
+    tag: 大事 2
+    heading: 週四 AI 晶片股大崩盤
+    chart: MU
+    bullets:
+      - 費城半導體 11/5 單日 -12.25%
+      - 美光 -17.5%、AMD -17.3%、輝達 -9.3%
+      - 市場擔心：新國會讓資料中心更難蓋
+    arrow: down
+    cast:
+      - {who: semis, mood: cry}
+    narration: >-
+      第二件，週四的晶片股大崩盤。費城半導體指數，一天跌了十二點二五趴。
+      美光跌十七點五，AMD 跌十七點三，輝達跌九點三。
+      為什麼？市場擔心，新的國會和地方政府，會讓 AI 資料中心更難蓋。
+      Meta 也警告，選後的反彈，可能讓 AI 擴張更困難。
+      另外，還有大約六十萬顆輝達晶片，卡在香港，等中國核准進口。
+
+  - id: s05
+    type: topic
+    chapter: 大事三：台股一週 -12%
+    tag: 大事 3
+    heading: 台股重摔，國安基金進場
+    chart: "2330"
+    bullets:
+      - 加權指數收 39,702 點，一週跌 5,510 點
+      - 外資 11 月以來賣超 5,244 億
+      - 國安基金第 10 度護盤，金管會 11/9 起限空
+    arrow: down
+    cast:
+      - {who: twse, mood: cry}
+      - {who: nsf, mood: nervous, arms: up, holding: {type: sign, text: 護盤}}
+    narration: >-
+      第三件，台股。美股一崩，台股跟著重摔。
+      加權指數這一週，跌了五千五百一十點，一週跌一成二，收在三萬九千七百點。
+      距離今年高點，已經跌了兩成。台積電一週跌了將近一成；
+      外資這個月，已經賣超五千兩百多億。
+      週五晚上，國安基金宣布，第十度進場護盤；金管會也宣布，下週一起限制放空。
+
+  - id: s06
+    type: topic
+    chapter: 大事四：就業報告太強
+    tag: 大事 4
+    heading: 就業太好，升息機率又上去
+    bullets:
+      - 十月非農新增 16.5 萬人，市場預期約 6 萬
+      - 失業率 4.1%，時薪年增 3.1%
+      - 12 月升息機率回到約八成
+    arrow: up
+    cast:
+      - {who: jobs, mood: laugh, arms: up}
+      - {who: warsh, mood: nervous}
+    narration: >-
+      第四件，週五公布的就業報告。十月非農就業新增十六萬五千人，市場原本預期只有六萬左右；
+      失業率降到四點一趴，時薪年增三點一趴。
+      經濟這麼強，通膨就不容易降，市場押十二月升息的機率，又回到大約八成。
+      下週二，就要公布十月的物價。
+
+  - id: s07
+    type: movers
+    chapter: 本週漲跌排行
+    heading: 本週觀察名單
+    symbols: [AMZN, UBER, MSFT, AAPL, NVDA, TSLA, PLTR, ARM, MU]
+    top: 9
+    cast:
+      - {who: amazon, mood: happy, arms: up}
+      - {who: semis, mood: cry}
+    narration: >-
+      整理一下這週的觀察名單。跌最兇的是美光，一週跌二十二趴；
+      安謀跌十五點二，Palantir 跌十二點九，它營收年增將近一倍，股價還是跌；特斯拉跌十點四。
+      漲的是亞馬遜，一週漲七點九趴，優步漲五點一，微軟漲一點七。
+      蘋果這週公布財報，是新執行長 Ternus 上任後的第一次；全年營收創新高，
+      但它說記憶體漲價會壓縮毛利，股價一週小跌零點七趴。
+
+  - id: s08
+    type: concept
+    chapter: 本週時事概念股
+    name: 飄帶概念股
+    change: 限量 100 條
+    series: [10, 40, 70, 90, 100]
+    labels: [洋流飄帶, 排隊索取, 國旗飄帶, 11/9 限量]
+    bullets:
+      - 沈伯洋陣營：洋流飄帶，發放時排隊領
+      - 國民黨：國旗飄帶，每天限量 100 條
+    cast:
+      - {who: shen_camp, mood: happy, arms: up, holding: {type: sign, text: 洋流}}
+      - {who: kmt_hq, mood: smug, arms: up, holding: {type: sign, text: 國旗}}
+    narration: >-
+      好，進入本週時事概念股，以下純屬虛構，不是真的股票。
+      第一檔：飄帶概念股。台北市長參選人沈伯洋，陣營發的洋流飄帶，發放時支持者排隊領。
+      國民黨也推出國旗飄帶，四號中常會，主席鄭麗文親自繫上。
+      國民黨說，九號起在中央黨部發放，每天限量一百條，每人限領一條。
+      限量、排隊、搶不到，這檔的籌碼，比台積電還集中。
+      而且下週起限空令上路，它是全台灣，最不用擔心被放空的標的。
+
+  - id: s09
+    type: concept
+    name: 2 公克概念股
+    change: 每人 2g
+    series: [5, 30, 80, 60, 50]
+    labels: [香鬆分袋, 網路爆紅, 教育局說明, 可以追加]
+    bullets:
+      - 北市國小午餐：香鬆分袋，標示「每人 2g、請協助分發」
+      - 教育局：有學生過敏，2g 是建議量，可以追加
+    cast:
+      - {who: lunch, mood: shocked}
+    narration: >-
+      第二檔：兩公克概念股，一樣是虛構的。北市一間國小的營養午餐，香鬆另外分袋，
+      標籤寫著每人兩公克、請老師協助分發，照片在網路上爆紅。
+      教育局說明，是因為有學生對香鬆過敏，兩公克只是建議量，想吃可以追加。
+      台積電在拚兩奈米，台北的午餐在拚兩公克，台灣的精密製造，真的是全面性的。
+
+  - id: s10
+    type: calendar
+    chapter: 下週行事曆
+    heading: 下週要看什麼（美東時間）
+    events:
+      - {date: 11/10 週二, item: 十月 CPI；CoreWeave 財報（預計）}
+      - {date: 11/11 週三, item: 退伍軍人節：債市休市、股市照常}
+      - {date: 11/12 週四, item: 思科、應用材料財報（盤後，預計）}
+      - {date: 11/13 週五, item: 十月 PPI 生產者物價}
+    cast:
+      - {who: warsh, mood: nervous}
+    narration: >-
+      下週看什麼？週二公布十月的 CPI，這是十二月 Fed 開會前，最後一份物價。
+      而且因為去年十月政府停擺沒有統計，這次只有月增率，沒有年增率。
+      同一天盤後，是 CoreWeave 的財報。週三退伍軍人節，債市休市，股市照常開；
+      週四盤後有思科和應用材料，週五公布生產者物價。
+
+  - id: s11
+    type: outro
+    chapter: 結尾
+    headline: 下週再一起被割
+    bullets:
+      - 訂閱：每週日 20:00，一起看完一週美股
+      - 留言告訴我：這週你被割了幾趴？
+    cast:
+      - {who: twse, mood: cry}
+      - {who: semis, mood: cry}
+      - {who: nasdaq, mood: nervous}
+    narration: >-
+      以上就是這週的韭菜週報。我們是散戶，不是老師，不報明牌，只陪你看懂新聞。
+      這週美股、台股一起跌，韭菜被割得特別整齊。覺得有幫助就訂閱，每週日晚上八點見。
+      留言告訴我，這週你被割了幾趴？我們下週再一起被割，然後一起長回來。
+
+shorts:
+  - id: short1
+    segments: [s04]
+    title: 選完隔天，AI 晶片股一天崩 12% 😱
+    description: 11/5 費城半導體指數單日跌 12.25%，美光、AMD 都跌超過 17%。旁白為 AI 語音合成。
+    publish_at: 2026-11-09 20:00
+  - id: short2
+    segments: [s05]
+    title: 台股一週跌 5510 點，國安基金第 10 度進場
+    description: 加權指數一週跌 12.2%，國安基金宣布第 10 度護盤，金管會 11/9 起限制放空。旁白為 AI 語音合成。
+    publish_at: 2026-11-11 20:00
+  - id: short3
+    segments: [s08]
+    title: 「飄帶概念股」：每天限量 100 條，籌碼比台積電還集中 😂
+    description: 本週時事概念股（虛構）：洋流飄帶、國旗飄帶，排隊限量領。旁白為 AI 語音合成。
+    publish_at: 2026-11-13 20:00

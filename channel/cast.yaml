@@ -7,7 +7,7 @@
 #   outfit.type：suit（西裝，可設 tie 顏色）/ leather（皮衣）/ tshirt
 # 物件（kind: object）
 #   shape：server（伺服器）/ gas_pump（加油機）/ barrel（油桶）/ bank（銀行）/ podium（講台，給團體角色）/ screen（報價螢幕，給指數）
-#          chip（晶片）/ box（紙箱）/ magnifier（放大鏡，給搜尋引擎）
+#          chip（晶片）/ box（紙箱）/ magnifier（放大鏡，給搜尋引擎）/ bowl（飯碗）
 #
 # 原則：辨識靠名牌和招牌穿著，不誇大長相；不畫寫實臉孔、不用照片。
 
@@ -174,3 +174,52 @@ twse:
   kind: object
   shape: screen
   color: "#C0392B"
+
+dem:
+  name: 民主黨
+  role: ""
+  kind: object
+  shape: podium
+  color: "#2E5EAA"
+
+gop:
+  name: 共和黨
+  role: ""
+  kind: object
+  shape: podium
+  color: "#C0392B"
+
+nsf:
+  name: 國安基金
+  role: ""
+  kind: object
+  shape: podium
+  color: "#B8892E"
+
+jobs:
+  name: 就業報告
+  role: 十月非農
+  kind: object
+  shape: screen
+  color: "#2E8B57"
+
+shen_camp:
+  name: 沈伯洋陣營
+  role: ""
+  kind: object
+  shape: podium
+  color: "#8A94A6"
+
+kmt_hq:
+  name: 國民黨
+  role: ""
+  kind: object
+  shape: podium
+  color: "#8A94A6"
+
+lunch:
+  name: 營養午餐
+  role: ""
+  kind: object
+  shape: bowl
+  color: "#E07A3F"

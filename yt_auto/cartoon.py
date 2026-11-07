@@ -301,6 +301,13 @@ class Painter:
             self.add(Circle((x, cy), 22 * s, fc=color, ec=OUTLINE, lw=self.lw), 3)
             self.add(Circle((x, cy), 17.5 * s, fc="#EAF2FF", ec=OUTLINE, lw=self.lw * 0.7), 4)
             fx, fy, R = x, cy, 14 * s
+        elif shape == "bowl":
+            # 飯碗：上面一球白飯，碗身放臉
+            cy = ground + 30 * s
+            self.add(Ellipse((x, cy + 1 * s), 42 * s, 22 * s, fc="#FBFBF5", ec=OUTLINE, lw=self.lw), 2)
+            self.add(Wedge((x, cy), 25 * s, 180, 360, fc=color, ec=OUTLINE, lw=self.lw), 3)
+            self.add(Rectangle((x - 9 * s, ground), 18 * s, 6 * s, fc=color, ec=OUTLINE, lw=self.lw * 0.8), 2)
+            fx, fy, R = x, cy - 11 * s, 11 * s
         else:  # podium：講台（給「政府」「黨團」這種團體角色用）
             w, h = 40 * s, 36 * s
             self.add(Polygon([(x - w / 2, ground + h), (x + w / 2, ground + h), (x + w / 2 - 4 * s, ground), (x - w / 2 + 4 * s, ground)],
